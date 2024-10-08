@@ -48,7 +48,7 @@ function Orders() {
                   </span>
                 </td>
                 <td className="p-2">
-                  <button className="text-blue-600 hover:text-blue-800 mr-2">
+                  <button className="text-blue-600 hover:text-blue-800 mr-4">
                     <i className="fas fa-eye"></i>
                   </button>
                   <button className="text-green-600 hover:text-green-800">

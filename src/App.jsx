@@ -1,21 +1,18 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
-import Dashboard from "./pages/Dashboard";
-import Products from "./pages/Products";
-import Orders from "./pages/Orders";
-
 import Main from "./layouts/Main";
 import Auth from "./layouts/Auth";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import { menu } from "./utils/util";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Main />}>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/orders" element={<Orders />} />
+        {menu.map((item) => (
+          <Route key={item.path} path={item.path} element={item.component} />
+        ))}
       </Route>
       <Route path="/auth" element={<Auth />}>
         <Route path="/auth/login" element={<Login />} />

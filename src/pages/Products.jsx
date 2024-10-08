@@ -37,7 +37,7 @@ function Products() {
                 <td className="p-2">${(Math.random() * 50).toFixed(2)}</td>
                 <td className="p-2">{Math.floor(Math.random() * 100)}</td>
                 <td className="p-2">
-                  <button className="text-blue-600 hover:text-blue-800 mr-2">
+                  <button className="text-blue-600 hover:text-blue-800 mr-4">
                     <i className="fas fa-edit"></i>
                   </button>
                   <button className="text-red-600 hover:text-red-800">

@@ -1,12 +1,19 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { menu } from "../utils/util";
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const location = useLocation();
+  const activePath = (path) => {
+    return location.pathname.split("/")[1] === path.split("/")[1]
+      ? "bg-gray-700 "
+      : "";
+  };
   return (
     <div
       className={`bg-gray-800 text-white transition-all duration-300 ease-in-out ${
-        isSidebarOpen ? "w-64" : "w-12"
+        isSidebarOpen ? "w-60" : "w-12"
       }`}
     >
       <div className="p-4 flex justify-between items-center">
@@ -29,27 +36,19 @@ const Sidebar = () => {
         </button>
       </div>
       <nav className="mt-8">
-        <Link
-          to="/"
-          className="block py-3 px-4 hover:bg-gray-700 transition duration-200"
-        >
-          <i className="fas fa-tachometer-alt mr-2"></i>
-          {isSidebarOpen && <span>Dashboard</span>}
-        </Link>
-        <Link
-          to="/products"
-          className="block py-3 px-4 hover:bg-gray-700 transition duration-200"
-        >
-          <i className="fas fa-box mr-2"></i>
-          {isSidebarOpen && <span>Products</span>}
-        </Link>
-        <Link
-          to="/orders"
-          className="block py-3 px-4 hover:bg-gray-700 transition duration-200"
-        >
-          <i className="fas fa-shopping-cart mr-2"></i>
-          {isSidebarOpen && <span>Orders</span>}
-        </Link>
+        {menu.map((item) => (
+          <Link
+            key={item.path}
+            to={item.path}
+            className={
+              activePath(item.path) +
+              "block py-3 px-4 hover:bg-gray-700 transition duration-200"
+            }
+          >
+            <i className={item.icon + " mr-2"}></i>
+            {isSidebarOpen && <span>{item.name}</span>}
+          </Link>
+        ))}
       </nav>
     </div>
   );
