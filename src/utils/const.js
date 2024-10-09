@@ -16,8 +16,8 @@ export const menu = [
   },
 ];
 export const statusArr = [
-  { code: "PENDING", style: "bg-blue-200 text-blue-800" },
-  { code: "PROCESSING", style: "bg-yellow-200 text-yellow-800" },
-  { code: "COMPLETED", style: "bg-green-200 text-green-800" },
-  { code: "CANCELLED", style: "bg-red-200 text-red-800" },
+  { code: "Pending", style: "bg-blue-200 text-blue-800" },
+  { code: "Processing", style: "bg-yellow-200 text-yellow-800" },
+  { code: "Completed", style: "bg-green-200 text-green-800" },
+  { code: "Cancelled", style: "bg-red-200 text-red-800" },
 ];

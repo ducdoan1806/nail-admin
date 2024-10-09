@@ -12,18 +12,17 @@ import { statusArr } from "../utils/const";
 const Orders = () => {
   const dispatch = useDispatch();
 
-  const { loading, orders, count, page, pageSize, name, status } = useSelector(
-    (state) => state.order
-  );
+  const { loading, orders, count, page, pageSize, search, status } =
+    useSelector((state) => state.order);
   const debouncedSearch = useDebounced((query) => {
-    dispatch(orderSlice.actions.setSearchQuery({ name: query, status }));
+    dispatch(orderSlice.actions.setSearchQuery({ search: query, status }));
   }, 500);
   const handleSearch = (e) => {
     debouncedSearch(e.target.value);
   };
   const handleStatus = (e) => {
     dispatch(
-      orderSlice.actions.setSearchQuery({ name, status: e.target.value })
+      orderSlice.actions.setSearchQuery({ search, status: e.target.value })
     );
   };
   const handleScroll = (e) => {
@@ -36,14 +35,14 @@ const Orders = () => {
             pageSize,
           })
         );
-        dispatch(getOrderApi({ page: page + 1, pageSize, name, status }));
+        dispatch(getOrderApi({ page: page + 1, pageSize, search, status }));
       }
     }
   };
 
   useEffect(() => {
-    if (page === 1) dispatch(getOrderApi({ page, pageSize, name, status }));
-  }, [dispatch, page, pageSize, name, status]);
+    if (page === 1) dispatch(getOrderApi({ page, pageSize, search, status }));
+  }, [dispatch, page, pageSize, search, status]);
   return (
     <div>
       <h2 className="text-2xl font-bold mb-6">Orders</h2>
@@ -52,26 +51,23 @@ const Orders = () => {
           <input
             type="text"
             placeholder="Search orders..."
-            className="border rounded-md p-2 w-64"
+            className="border rounded-md px-2 py-1 w-64 text-sm focus:border-gray-600 outline-none"
             onChange={handleSearch}
             autoFocus
           />
           <div>
             <select
-              className="border rounded-md p-2 mr-2"
+              className="border rounded-md px-2 py-1 text-sm focus:border-gray-600 outline-none"
               onChange={handleStatus}
               value={status}
             >
               <option value="">All Statuses</option>
               {statusArr.map((item) => (
-                <option key={item.code} value={item.code}>
+                <option key={item.code} value={item.code.toUpperCase()}>
                   {item.code}
                 </option>
               ))}
             </select>
-            <button className="bg-pink-600 text-white py-2 px-4 rounded-md hover:bg-pink-700">
-              <i className="fas fa-filter mr-2"></i> Filter
-            </button>
           </div>
         </div>
         <div
@@ -94,7 +90,7 @@ const Orders = () => {
             <tbody>
               {orders.map((order, idx) => {
                 const statusTag = statusArr.find(
-                  (item) => order?.status === item.code
+                  (item) => order?.status === item.code.toUpperCase()
                 );
                 return (
                   <tr key={idx} className="border-b">

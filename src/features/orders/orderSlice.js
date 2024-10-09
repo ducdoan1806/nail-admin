@@ -6,7 +6,7 @@ const initialState = {
   orders: [],
   page: 1,
   pageSize: 20,
-  name: "",
+  search: "",
   status: "",
   count: 0,
 };
@@ -19,7 +19,7 @@ const orderSlice = createSlice({
       state.pageSize = action.payload.pageSize;
     },
     setSearchQuery(state, action) {
-      state.name = action.payload.name;
+      state.search = action.payload.search;
       state.status = action.payload.status;
       state.page = 1; // Reset page on search
     },
