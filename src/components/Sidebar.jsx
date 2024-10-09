@@ -13,7 +13,7 @@ const Sidebar = () => {
   return (
     <div
       className={`bg-gray-800 text-white transition-all duration-300 ease-in-out ${
-        isSidebarOpen ? "w-60" : "w-12"
+        isSidebarOpen ? "w-56" : "w-12"
       }`}
     >
       <div className="p-4 flex justify-between items-center">

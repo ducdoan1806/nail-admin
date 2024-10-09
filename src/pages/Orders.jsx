@@ -8,6 +8,7 @@ import orderSlice from "../features/orders/orderSlice";
 import { getOrderApi } from "../features/orders/api";
 import { useEffect } from "react";
 import { statusArr } from "../utils/const";
+import { Link } from "react-router-dom";
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -95,7 +96,14 @@ const Orders = () => {
                 return (
                   <tr key={idx} className="border-b">
                     <td className="p-2">{idx + 1}</td>
-                    <td className="p-2">#{order?.order_code}</td>
+                    <td className="p-2">
+                      <Link
+                        className="text-pink-600 underline hover:text-pink-800"
+                        to={`/orders/${order?.order_code}`}
+                      >
+                        #{order?.order_code}
+                      </Link>
+                    </td>
                     <td className="p-2">{order?.name}</td>
                     <td className="p-2">
                       {convertToVietnamTime(order?.created_at)}
