@@ -9,6 +9,7 @@ import { getOrderApi } from "../features/orders/api";
 import { useEffect } from "react";
 import { statusArr } from "../utils/const";
 import { Link } from "react-router-dom";
+import Loading from "../components/Loading";
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -85,7 +86,6 @@ const Orders = () => {
                 <th className="text-left p-2">Date Time</th>
                 <th className="text-left p-2">Total</th>
                 <th className="text-left p-2">Status</th>
-                <th className="text-left p-2"></th>
               </tr>
             </thead>
             <tbody>
@@ -126,16 +126,16 @@ const Orders = () => {
                         {statusTag.code}
                       </span>
                     </td>
-                    <td className="p-2">
-                      <button className="text-green-600 hover:text-green-800">
-                        <i className="fas fa-check"></i>
-                      </button>
-                    </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
+          {loading && (
+            <div className="mt-4 flex justify-center">
+              <Loading size="w-8 h-8" />
+            </div>
+          )}
         </div>
       </div>
     </div>

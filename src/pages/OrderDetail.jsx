@@ -2,9 +2,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getOrderDetailApi } from "../features/orders/api";
 import { Link, useLocation } from "react-router-dom";
+import { statusArr } from "../utils/const";
+import { convertToVND } from "../utils/util";
+import Loading from "../components/Loading";
 const OrderDetail = () => {
   const dispatch = useDispatch();
-  const { order } = useSelector((state) => state.orderDetail);
+  const { order, loading } = useSelector((state) => state.orderDetail);
 
   const location = useLocation();
   const formatDate = (dateString) => {
@@ -21,6 +24,9 @@ const OrderDetail = () => {
   const totalAmount =
     order?.carts.reduce((sum, item) => sum + item.quantity * item.price, 0) ||
     0;
+  const statusTag = statusArr.find(
+    (item) => item.code.toUpperCase() === order?.status
+  );
   useEffect(() => {
     dispatch(
       getOrderDetailApi(
@@ -53,8 +59,13 @@ const OrderDetail = () => {
                 <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt className="text-sm font-medium text-gray-500">Status</dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                      {order?.status}
+                    <span
+                      className={
+                        "px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full " +
+                        statusTag?.style
+                      }
+                    >
+                      {statusTag?.code}
                     </span>
                   </dd>
                 </div>
@@ -95,8 +106,8 @@ const OrderDetail = () => {
                   <dt className="text-sm font-medium text-gray-500">
                     Total Amount
                   </dt>
-                  <dd className="mt-1 text-sm font-bold text-gray-900 sm:mt-0 sm:col-span-2">
-                    {totalAmount.toLocaleString("vi-VN")} VND
+                  <dd className="mt-1 text-sm font-bold text-pink-600 sm:mt-0 sm:col-span-2">
+                    {convertToVND(totalAmount)}
                   </dd>
                 </div>
               </dl>
@@ -161,11 +172,10 @@ const OrderDetail = () => {
                         {item.quantity}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {item.price.toLocaleString("vi-VN")} VND
+                        {convertToVND(item.price)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {(item.quantity * item.price).toLocaleString("vi-VN")}{" "}
-                        VND
+                        {convertToVND(item.quantity * item.price)}
                       </td>
                     </tr>
                   ))}
@@ -175,6 +185,11 @@ const OrderDetail = () => {
           </div>
         </div>
       </div>
+      {loading && (
+        <div className="fixed bg-white bg-opacity-70 top-0 left-0 bottom-0 right-0 flex items-center justify-center">
+          <Loading />
+        </div>
+      )}
     </>
   );
 };
