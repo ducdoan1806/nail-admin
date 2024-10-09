@@ -18,9 +18,10 @@ function Products() {
             <tr className="border-b">
               <th className="text-left p-2">Image</th>
               <th className="text-left p-2">Name</th>
+              <th className="text-left p-2">Category</th>
               <th className="text-left p-2">Price</th>
               <th className="text-left p-2">Stock</th>
-              <th className="text-left p-2">Actions</th>
+              <th className="text-left p-2"></th>
             </tr>
           </thead>
           <tbody>
@@ -34,12 +35,10 @@ function Products() {
                   />
                 </td>
                 <td className="p-2">Nail Polish Set {product}</td>
+                <td className="p-2">Other</td>
                 <td className="p-2">${(Math.random() * 50).toFixed(2)}</td>
                 <td className="p-2">{Math.floor(Math.random() * 100)}</td>
                 <td className="p-2">
-                  <button className="text-blue-600 hover:text-blue-800 mr-4">
-                    <i className="fas fa-edit"></i>
-                  </button>
                   <button className="text-red-600 hover:text-red-800">
                     <i className="fas fa-trash"></i>
                   </button>
