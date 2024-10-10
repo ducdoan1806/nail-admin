@@ -17,13 +17,9 @@ const Sidebar = () => {
       }`}
     >
       <div className="p-4 flex justify-between items-center">
-        <h1
-          className={`text-2xl text-nowrap font-bold ${
-            isSidebarOpen ? "" : "hidden"
-          }`}
-        >
-          Gạo Nails
-        </h1>
+        {isSidebarOpen && (
+          <h1 className="text-2xl text-nowrap font-bold">Gạo Nails</h1>
+        )}
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           className=" text-white"
@@ -45,8 +41,8 @@ const Sidebar = () => {
               "block py-3 px-4 hover:bg-gray-700 transition duration-200"
             }
           >
-            <i className={item.icon + " mr-2"}></i>
-            {isSidebarOpen && <span>{item.name}</span>}
+            <i className={item.icon}></i>
+            {isSidebarOpen && <span className="ml-2">{item.name}</span>}
           </Link>
         ))}
       </nav>
