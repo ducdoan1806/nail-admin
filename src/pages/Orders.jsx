@@ -80,12 +80,12 @@ const Orders = () => {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b">
-                <th className="text-left p-2">No</th>
-                <th className="text-left p-2">Order ID</th>
-                <th className="text-left p-2">Customer</th>
-                <th className="text-left p-2">Date Time</th>
-                <th className="text-left p-2">Total</th>
-                <th className="text-left p-2">Status</th>
+                <th className="text-left p-2 text-nowrap">No</th>
+                <th className="text-left p-2 text-nowrap">Order ID</th>
+                <th className="text-left p-2 text-nowrap">Customer</th>
+                <th className="text-left p-2 text-nowrap">Date Time</th>
+                <th className="text-left p-2 text-nowrap">Total</th>
+                <th className="text-left p-2 text-nowrap">Status</th>
               </tr>
             </thead>
             <tbody>
@@ -95,8 +95,8 @@ const Orders = () => {
                 );
                 return (
                   <tr key={idx} className="border-b">
-                    <td className="p-2">{idx + 1}</td>
-                    <td className="p-2">
+                    <td className="p-2 text-nowrap">{idx + 1}</td>
+                    <td className="p-2 text-nowrap">
                       <Link
                         className="text-pink-600 underline hover:text-pink-800"
                         to={`/orders/${order?.order_code}`}
@@ -104,11 +104,11 @@ const Orders = () => {
                         #{order?.order_code}
                       </Link>
                     </td>
-                    <td className="p-2">{order?.name}</td>
-                    <td className="p-2">
+                    <td className="p-2 text-nowrap">{order?.name}</td>
+                    <td className="p-2 text-nowrap">
                       {convertToVietnamTime(order?.created_at)}
                     </td>
-                    <td className="p-2">
+                    <td className="p-2 text-nowrap">
                       {convertToVND(
                         order.carts.reduce(
                           (acc, item) => acc + item.price * item.quantity,
@@ -116,7 +116,7 @@ const Orders = () => {
                         )
                       )}
                     </td>
-                    <td className="p-2">
+                    <td className="p-2 text-nowrap">
                       <span
                         className={
                           statusTag.style +
