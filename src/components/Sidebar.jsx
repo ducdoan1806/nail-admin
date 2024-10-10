@@ -5,11 +5,10 @@ import { menu } from "../utils/const";
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const location = useLocation();
-  const activePath = (path) => {
-    return location.pathname.split("/")[1] === path.split("/")[1]
+  const activePath = (path) =>
+    location.pathname.split("/")[1] === path.split("/")[1]
       ? "bg-gray-700 "
       : "";
-  };
   return (
     <div
       className={`bg-gray-800 text-white transition-all duration-300 ease-in-out ${
