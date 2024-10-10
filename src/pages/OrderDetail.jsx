@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import { statusArr } from "../utils/const";
 import { convertToVND } from "../utils/util";
 import Loading from "../components/Loading";
+import CartItem from "../components/CartItem";
 const OrderDetail = () => {
   const dispatch = useDispatch();
   const { order, loading } = useSelector((state) => state.orderDetail);
@@ -161,23 +162,7 @@ const OrderDetail = () => {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {order?.carts.map((item) => (
-                    <tr key={item.product_detail}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {item.products.name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {item.detail.color_name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {item.quantity}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {convertToVND(item.price)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {convertToVND(item.quantity * item.price)}
-                      </td>
-                    </tr>
+                    <CartItem key={item?.product_detail} {...item} />
                   ))}
                 </tbody>
               </table>
