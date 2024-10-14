@@ -24,3 +24,20 @@ export const getOrderDetailApi = (orderCode) => async (dispatch) => {
     dispatch(orderDetailSlice.actions.getOrderDetailFail(e?.response?.data));
   }
 };
+export const updateOrderApi =
+  ({ status, orderId }) =>
+  async (dispatch) => {
+    dispatch(orderSlice.actions.updateOrder());
+    dispatch(orderDetailSlice.actions.getOrderDetail());
+    try {
+      const res = await http.patch(
+        `/nail/order/${orderId}/`,
+        JSON.stringify({ status })
+      );
+      dispatch(orderSlice.actions.updateOrderSuccess(res?.data?.data));
+      dispatch(orderDetailSlice.actions.getOrderDetailSuccess(res?.data?.data));
+    } catch (e) {
+      dispatch(orderSlice.actions.updateOrderFail(e?.response?.data));
+      dispatch(orderDetailSlice.actions.getOrderDetailFail(e?.response?.data));
+    }
+  };

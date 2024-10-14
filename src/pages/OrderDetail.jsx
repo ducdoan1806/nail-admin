@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getOrderDetailApi } from "../features/orders/api";
+import { useEffect, useState } from "react";
+import { getOrderDetailApi, updateOrderApi } from "../features/orders/api";
 import { Link, useLocation } from "react-router-dom";
 import { statusArr } from "../utils/const";
 import { convertToVND } from "../utils/util";
@@ -9,7 +9,7 @@ import CartItem from "../components/CartItem";
 const OrderDetail = () => {
   const dispatch = useDispatch();
   const { order, loading } = useSelector((state) => state.orderDetail);
-
+  const [isEdit, setIsEdit] = useState(false);
   const location = useLocation();
   const formatDate = (dateString) => {
     const options = {
@@ -28,6 +28,10 @@ const OrderDetail = () => {
   const statusTag = statusArr.find(
     (item) => item.code.toUpperCase() === order?.status
   );
+  const handleChangeStatus = (e) => {
+    dispatch(updateOrderApi({ status: e.target.value, orderId: order?.id }));
+    setIsEdit(false);
+  };
   useEffect(() => {
     dispatch(
       getOrderDetailApi(
@@ -60,14 +64,38 @@ const OrderDetail = () => {
                 <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt className="text-sm font-medium text-gray-500">Status</dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    <span
-                      className={
-                        "px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full " +
-                        statusTag?.style
-                      }
+                    {!isEdit ? (
+                      <span
+                        className={
+                          "px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full " +
+                          statusTag?.style
+                        }
+                      >
+                        {statusTag?.code}
+                      </span>
+                    ) : (
+                      <select
+                        className="outline-none px-2 py-1 border rounded border-gray-400"
+                        value={order?.status}
+                        onChange={handleChangeStatus}
+                      >
+                        {statusArr.map((item) => (
+                          <option
+                            key={item.code}
+                            value={item.code.toUpperCase()}
+                          >
+                            {item.code}
+                          </option>
+                        ))}
+                      </select>
+                    )}
+
+                    <button
+                      className="ml-3 text-xs text-blue-400 font-semibold hover:text-blue-500"
+                      onClick={() => setIsEdit(!isEdit)}
                     >
-                      {statusTag?.code}
-                    </span>
+                      {!isEdit ? "Change Status" : "Cancel"}
+                    </button>
                   </dd>
                 </div>
                 <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

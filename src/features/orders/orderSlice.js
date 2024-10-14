@@ -38,6 +38,20 @@ const orderSlice = createSlice({
       state.orders = [];
       state.error = action.payload;
     },
+    updateOrder: (state) => {
+      state.loading = true;
+    },
+    updateOrderSuccess: (state, action) => {
+      state.loading = false;
+      state.orders = state.orders.map((item) =>
+        item.id === action.payload.id ? action.payload : item
+      );
+      state.error = null;
+    },
+    updateOrderFail: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 export default orderSlice;
