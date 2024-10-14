@@ -59,7 +59,7 @@ const Orders = () => {
           />
           <div>
             <select
-              className="border rounded-md px-2 py-1 text-sm focus:border-gray-600 outline-none"
+              className="border rounded-md px-2 py-1 text-sm focus:border-gray-500 outline-none"
               onChange={handleStatus}
               value={status}
             >
