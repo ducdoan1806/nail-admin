@@ -1,52 +1,21 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import {
+  getProductDetailApi,
+  updateProductDetailApi,
+} from "../features/products/api";
 
 export default function ProductDetail() {
+  const dispatch = useDispatch();
+  const location = useLocation();
   const [isEditing, setIsEditing] = useState(false);
-  const [product, setProduct] = useState({
-    id: 1,
-    name: "Chic Nail Brush",
-    detail: "Chic Nail Brush",
-    description: "High-quality nail brush for professional and personal use",
-    mini_price: 50000,
-    category: {
-      id: 1,
-      name: "other",
-      code: "other",
-    },
-    images: [
-      {
-        id: 1,
-        image: "/media/uploads/images/picture1.jpg",
-        created_at: "2024-10-04T07:53:23.219584Z",
-      },
-      {
-        id: 2,
-        image: "/media/uploads/images/picture2.jpg",
-        created_at: "2024-10-04T07:53:23.219584Z",
-      },
-    ],
-    detail_products: [
-      {
-        id: 6,
-        price: 50000,
-        color_code: "transparent",
-        color_name: "transparent",
-        quantity: 50,
-      },
-      {
-        id: 7,
-        price: 55000,
-        color_code: "pink",
-        color_name: "Pink",
-        quantity: 30,
-      },
-    ],
-  });
 
+  const { product } = useSelector((state) => state?.productDetail);
+  console.log("product: ", product);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setProduct((prevProduct) => ({
+    updateProductDetailApi((prevProduct) => ({
       ...prevProduct,
       [name]: value,
     }));
@@ -54,7 +23,7 @@ export default function ProductDetail() {
 
   const handleDetailProductChange = (index, e) => {
     const { name, value } = e.target;
-    setProduct((prevProduct) => ({
+    updateProductDetailApi((prevProduct) => ({
       ...prevProduct,
       detail_products: prevProduct.detail_products.map((item, i) =>
         i === index
@@ -71,7 +40,7 @@ export default function ProductDetail() {
   };
 
   const addDetailProduct = () => {
-    setProduct((prevProduct) => ({
+    updateProductDetailApi((prevProduct) => ({
       ...prevProduct,
       detail_products: [
         ...prevProduct.detail_products,
@@ -87,7 +56,7 @@ export default function ProductDetail() {
   };
 
   const removeDetailProduct = (index) => {
-    setProduct((prevProduct) => ({
+    updateProductDetailApi((prevProduct) => ({
       ...prevProduct,
       detail_products: prevProduct.detail_products.filter(
         (_, i) => i !== index
@@ -100,7 +69,7 @@ export default function ProductDetail() {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setProduct((prevProduct) => ({
+        updateProductDetailApi((prevProduct) => ({
           ...prevProduct,
           images: [
             ...prevProduct.images,
@@ -117,7 +86,7 @@ export default function ProductDetail() {
   };
 
   const removeImage = (id) => {
-    setProduct((prevProduct) => ({
+    updateProductDetailApi((prevProduct) => ({
       ...prevProduct,
       images: prevProduct.images.filter((img) => img.id !== id),
     }));
@@ -128,7 +97,13 @@ export default function ProductDetail() {
     console.log("Saving product:", product);
     setIsEditing(false);
   };
-
+  useEffect(() => {
+    dispatch(
+      getProductDetailApi(
+        location.pathname.split("/")[location.pathname.split("/").length - 1]
+      )
+    );
+  }, [dispatch, location.pathname]);
   return (
     <div>
       <Link to="/products" className="text-pink-600 hover:text-pink-800">
@@ -165,11 +140,11 @@ export default function ProductDetail() {
             <div className="lg:w-1/3">
               <h3 className="text-lg font-semibold mb-4">Product Images</h3>
               <div className="grid grid-cols-2 gap-4">
-                {product.images.map((image) => (
+                {product?.images.map((image) => (
                   <div key={image.id} className="relative">
                     <img
                       src={image.image}
-                      alt={product.name}
+                      alt={product?.name}
                       className="w-full h-40 object-cover rounded-lg"
                     />
                     {isEditing && (
@@ -207,12 +182,12 @@ export default function ProductDetail() {
                   <input
                     type="text"
                     name="name"
-                    value={product.name}
+                    value={product?.name}
                     onChange={handleInputChange}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-300 focus:ring focus:ring-pink-200 focus:ring-opacity-50"
                   />
                 ) : (
-                  <p className="mt-1 text-sm text-gray-900">{product.name}</p>
+                  <p className="mt-1 text-sm text-gray-900">{product?.name}</p>
                 )}
               </div>
               <div className="mb-4">
@@ -222,7 +197,7 @@ export default function ProductDetail() {
                 {isEditing ? (
                   <select
                     name="category"
-                    value={product.category.id}
+                    value={product?.category.id}
                     onChange={handleInputChange}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-300 focus:ring focus:ring-pink-200 focus:ring-opacity-50"
                   >
@@ -231,7 +206,7 @@ export default function ProductDetail() {
                   </select>
                 ) : (
                   <p className="mt-1 text-sm text-gray-900">
-                    {product.category.name}
+                    {product?.category.name}
                   </p>
                 )}
               </div>
@@ -242,14 +217,14 @@ export default function ProductDetail() {
                 {isEditing ? (
                   <textarea
                     name="description"
-                    value={product.description}
+                    value={product?.description}
                     onChange={handleInputChange}
                     rows="4"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-300 focus:ring focus:ring-pink-200 focus:ring-opacity-50"
                   ></textarea>
                 ) : (
                   <p className="mt-1 text-sm text-gray-900">
-                    {product.description}
+                    {product?.description}
                   </p>
                 )}
               </div>
@@ -257,7 +232,7 @@ export default function ProductDetail() {
               {/* Product Variants */}
               <div className="mt-6">
                 <h3 className="text-lg font-semibold mb-4">Product Variants</h3>
-                {product.detail_products.map((detail, index) => (
+                {product?.detail_products.map((detail, index) => (
                   <div key={detail.id} className="mb-4 p-4 border rounded-lg">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                       <div>
