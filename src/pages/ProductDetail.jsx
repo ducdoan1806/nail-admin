@@ -5,6 +5,8 @@ import {
   getProductDetailApi,
   updateProductDetailApi,
 } from "../features/products/api";
+import ProductImage from "../components/ProductImage";
+import ProductVariants from "../components/ProductVariants";
 
 export default function ProductDetail() {
   const dispatch = useDispatch();
@@ -12,83 +14,12 @@ export default function ProductDetail() {
   const [isEditing, setIsEditing] = useState(false);
 
   const { product } = useSelector((state) => state?.productDetail);
-  console.log("product: ", product);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     updateProductDetailApi((prevProduct) => ({
       ...prevProduct,
       [name]: value,
-    }));
-  };
-
-  const handleDetailProductChange = (index, e) => {
-    const { name, value } = e.target;
-    updateProductDetailApi((prevProduct) => ({
-      ...prevProduct,
-      detail_products: prevProduct.detail_products.map((item, i) =>
-        i === index
-          ? {
-              ...item,
-              [name]:
-                name === "quantity" || name === "price"
-                  ? parseInt(value, 10)
-                  : value,
-            }
-          : item
-      ),
-    }));
-  };
-
-  const addDetailProduct = () => {
-    updateProductDetailApi((prevProduct) => ({
-      ...prevProduct,
-      detail_products: [
-        ...prevProduct.detail_products,
-        {
-          id: Date.now(),
-          price: 0,
-          color_code: "",
-          color_name: "",
-          quantity: 0,
-        },
-      ],
-    }));
-  };
-
-  const removeDetailProduct = (index) => {
-    updateProductDetailApi((prevProduct) => ({
-      ...prevProduct,
-      detail_products: prevProduct.detail_products.filter(
-        (_, i) => i !== index
-      ),
-    }));
-  };
-
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        updateProductDetailApi((prevProduct) => ({
-          ...prevProduct,
-          images: [
-            ...prevProduct.images,
-            {
-              id: Date.now(),
-              image: reader.result,
-              created_at: new Date().toISOString(),
-            },
-          ],
-        }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const removeImage = (id) => {
-    updateProductDetailApi((prevProduct) => ({
-      ...prevProduct,
-      images: prevProduct.images.filter((img) => img.id !== id),
     }));
   };
 
@@ -117,14 +48,14 @@ export default function ProductDetail() {
             {isEditing ? (
               <button
                 onClick={handleSave}
-                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-sm"
               >
                 <i className="fas fa-save mr-2"></i>Save
               </button>
             ) : (
               <button
                 onClick={() => setIsEditing(true)}
-                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 text-sm"
               >
                 <i className="fas fa-edit mr-2"></i>Edit
               </button>
@@ -136,43 +67,8 @@ export default function ProductDetail() {
             className="flex flex-col lg:flex-row gap-6 overflow-auto"
             style={{ height: "calc(100vh - 270px)" }}
           >
-            {/* Product Images on the Left */}
-            <div className="lg:w-1/3">
-              <h3 className="text-lg font-semibold mb-4">Product Images</h3>
-              <div className="grid grid-cols-2 gap-4">
-                {product?.images.map((image) => (
-                  <div key={image.id} className="relative">
-                    <img
-                      src={image.image}
-                      alt={product?.name}
-                      className="w-full h-40 object-cover rounded-lg"
-                    />
-                    {isEditing && (
-                      <button
-                        onClick={() => removeImage(image.id)}
-                        className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
-                      >
-                        <i className="fas fa-trash-alt"></i>
-                      </button>
-                    )}
-                  </div>
-                ))}
-              </div>
-              {isEditing && (
-                <div className="mt-4">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Add Image
-                  </label>
-                  <input
-                    type="file"
-                    onChange={handleImageUpload}
-                    className="mt-1 block w-full"
-                  />
-                </div>
-              )}
-            </div>
+            <ProductImage productImages={product.images} />
 
-            {/* Product Details on the Right */}
             <div className="lg:w-2/3">
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">
@@ -184,7 +80,7 @@ export default function ProductDetail() {
                     name="name"
                     value={product?.name}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-300 focus:ring focus:ring-pink-200 focus:ring-opacity-50"
+                    className="block w-full bg-gray-100 border-gray-100 outline-none p-2 rounded-md mt-1 focus:border-pink-600 border text-sm"
                   />
                 ) : (
                   <p className="mt-1 text-sm text-gray-900">{product?.name}</p>
@@ -199,7 +95,7 @@ export default function ProductDetail() {
                     name="category"
                     value={product?.category.id}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-300 focus:ring focus:ring-pink-200 focus:ring-opacity-50"
+                    className="block w-full bg-gray-100 border-gray-100 outline-none p-2 rounded-md mt-1 focus:border-pink-600 border text-sm"
                   >
                     <option value={1}>Other</option>
                     {/* Add more categories as needed */}
@@ -220,7 +116,7 @@ export default function ProductDetail() {
                     value={product?.description}
                     onChange={handleInputChange}
                     rows="4"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-300 focus:ring focus:ring-pink-200 focus:ring-opacity-50"
+                    className="block w-full bg-gray-100 border-gray-100 outline-none p-2 rounded-md mt-1 focus:border-pink-600 border text-sm"
                   ></textarea>
                 ) : (
                   <p className="mt-1 text-sm text-gray-900">
@@ -229,91 +125,7 @@ export default function ProductDetail() {
                 )}
               </div>
 
-              {/* Product Variants */}
-              <div className="mt-6">
-                <h3 className="text-lg font-semibold mb-4">Product Variants</h3>
-                {product?.detail_products.map((detail, index) => (
-                  <div key={detail.id} className="mb-4 p-4 border rounded-lg">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                          Price
-                        </label>
-                        {isEditing ? (
-                          <input
-                            type="number"
-                            name="price"
-                            value={detail.price}
-                            onChange={(e) =>
-                              handleDetailProductChange(index, e)
-                            }
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-300 focus:ring focus:ring-pink-200 focus:ring-opacity-50"
-                          />
-                        ) : (
-                          <p className="mt-1 text-sm text-gray-900">
-                            {detail.price} VND
-                          </p>
-                        )}
-                      </div>
-                      {/* Other fields like color_code, color_name, and quantity */}
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                          Quantity
-                        </label>
-                        {isEditing ? (
-                          <input
-                            type="number"
-                            name="quantity"
-                            value={detail.quantity}
-                            onChange={(e) =>
-                              handleDetailProductChange(index, e)
-                            }
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-300 focus:ring focus:ring-pink-200 focus:ring-opacity-50"
-                          />
-                        ) : (
-                          <p className="mt-1 text-sm text-gray-900">
-                            {detail.quantity}
-                          </p>
-                        )}
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                          Color Code
-                        </label>
-                        {isEditing ? (
-                          <input
-                            type="text"
-                            name="color_code"
-                            value={detail.color_code}
-                            onChange={(e) =>
-                              handleDetailProductChange(index, e)
-                            }
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-300 focus:ring focus:ring-pink-200 focus:ring-opacity-50"
-                          />
-                        ) : (
-                          <p className="mt-1 text-sm text-gray-900">
-                            {detail.color_code}
-                          </p>
-                        )}
-                      </div>
-                      <button
-                        onClick={() => removeDetailProduct(index)}
-                        className=" text-red-500 bg-white px-2 py-1 rounded"
-                      >
-                        <i className="fas fa-trash-alt mr-1"></i>
-                      </button>
-                    </div>
-                  </div>
-                ))}
-                {isEditing && (
-                  <button
-                    onClick={addDetailProduct}
-                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                  >
-                    <i className="fas fa-plus mr-2"></i>Add Variant
-                  </button>
-                )}
-              </div>
+              <ProductVariants productDetail={product?.detail_products} />
             </div>
           </div>
         </div>

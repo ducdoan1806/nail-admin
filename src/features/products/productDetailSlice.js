@@ -22,6 +22,7 @@ const productDetailSlice = createSlice({
       state.product = null;
       state.error = action.payload;
     },
+
     updateProductDetail: (state) => {
       state.loading = true;
     },
