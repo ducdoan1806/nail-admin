@@ -26,10 +26,10 @@ export const getUserApi = () => async (dispatch) => {
   dispatch(userSlice.actions.getUser());
   try {
     const authToken = getCookie("authToken");
-    const response = await http.get("/api/user/", {
+    const response = await http.get("/nail/user/", {
       headers: { Authorization: authToken },
     });
-    dispatch(userSlice.actions.getUserSuccess(response.data));
+    dispatch(userSlice.actions.getUserSuccess(response.data.data));
   } catch (e) {
     dispatch(userSlice.actions.getUserFail(e?.response?.data));
   }

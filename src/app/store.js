@@ -5,10 +5,12 @@ import orderDetailSlice from "../features/orders/orderDetailSlice";
 import productSlice from "../features/products/productSlice";
 import productDetailSlice from "../features/products/productDetailSlice";
 import authSlice from "../features/auth/authSlice";
+import userSlice from "../features/auth/userSlice";
 
 const rootReducer = combineReducers({
   order: orderSlice.reducer,
   auth: authSlice.reducer,
+  user: userSlice.reducer,
   orderDetail: orderDetailSlice.reducer,
   product: productSlice.reducer,
   productDetail: productDetailSlice.reducer,

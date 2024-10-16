@@ -1,8 +1,16 @@
+import { useSelector } from "react-redux";
+
 const Header = () => {
+  const { currentUser } = useSelector((state) => state.user);
   return (
     <header className="bg-white shadow-md px-4 py-2 sticky top-0 right-0">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-gray-800">Welcome, Admin</h2>
+        <h2 className="text-xl font-semibold text-gray-800">
+          Welcome,{" "}
+          {(currentUser?.first_name || "--") +
+            " " +
+            (currentUser?.last_name || "--")}
+        </h2>
         <div className="flex items-center">
           <button className="bg-gray-200 p-2 rounded-full text-gray-600 hover:bg-gray-300 focus:outline-none">
             <i className="fas fa-bell"></i>
