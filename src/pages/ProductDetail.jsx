@@ -44,7 +44,11 @@ export default function ProductDetail() {
       <div className="bg-white shadow-md rounded-lg overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
           <h2 className="text-2xl font-bold text-gray-800">Product Details</h2>
-          <div>
+          <div className="flex gap-2">
+            <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 text-sm">
+              <i className="fa-solid fa-layer-group mr-2"></i>
+              Category
+            </button>
             {isEditing ? (
               <button
                 onClick={handleSave}
@@ -67,7 +71,7 @@ export default function ProductDetail() {
             className="flex flex-col lg:flex-row gap-6 overflow-auto"
             style={{ height: "calc(100vh - 270px)" }}
           >
-            <ProductImage productImages={product.images} />
+            <ProductImage productImages={product?.images || []} />
 
             <div className="lg:w-2/3">
               <div className="mb-4">
@@ -125,7 +129,7 @@ export default function ProductDetail() {
                 )}
               </div>
 
-              <ProductVariants productDetail={product?.detail_products} />
+              <ProductVariants productDetail={product?.detail_products || []} />
             </div>
           </div>
         </div>
