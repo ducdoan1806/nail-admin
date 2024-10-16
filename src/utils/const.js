@@ -21,3 +21,8 @@ export const statusArr = [
   { code: "Completed", style: "bg-green-200 text-green-800" },
   { code: "Cancelled", style: "bg-red-200 text-red-800" },
 ];
+export const OAUTH2_INFO = {
+  client_id: "6LEtFNLwpjRvQSCsyJ2V8jL8E9vgOI9YykyIjR84",
+  client_secret:
+    "iAQ3nHW1tSxJOVYkChPTmpAj1IGdDcVSCzvvrncVRK3TIPJYCos3qPn1KLDZeFqzjtlZhpJ4PqM0XRmzWpsQ41zHaSrEiCQf5jEljYuUjXlS2GerwdPHcJei11NtVhZu",
+};
