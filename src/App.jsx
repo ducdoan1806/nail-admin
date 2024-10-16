@@ -9,11 +9,19 @@ import Products from "./pages/Products";
 import Orders from "./pages/Orders";
 import OrderDetail from "./pages/OrderDetail";
 import ProductDetail from "./pages/ProductDetail";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Main />}>
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <Main />
+          </ProtectedRoute>
+        }
+      >
         <Route path="/" element={<Dashboard />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductDetail />} />

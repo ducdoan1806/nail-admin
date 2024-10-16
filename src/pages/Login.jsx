@@ -1,15 +1,24 @@
 import { useState } from "react";
 import AuthLayout from "../components/AuthLayout";
 import Input from "../components/Input";
+import { useDispatch, useSelector } from "react-redux";
+import { loginApi } from "../features/auth/api";
+import { isAuthenticated } from "../utils/util";
+import { Navigate } from "react-router-dom";
+import Loading from "../components/Loading";
+import Notification from "../components/Notification";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
+  const dispatch = useDispatch();
+  const [login, setLogin] = useState({ username: "", password: "" });
+  const handleLogin = (e) => {
+    setLogin({ ...login, [e.target.name]: e.target.value });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Login attempted with:", email, password);
+    dispatch(loginApi(login));
   };
+  const { loaded, error, loading } = useSelector((state) => state.auth);
 
   return (
     <AuthLayout
@@ -17,16 +26,17 @@ const Login = () => {
       link="/auth/register"
       linkName="Register now"
     >
+      {(loaded || isAuthenticated()) && <Navigate to="/" />}
       <form className="space-y-6" onSubmit={handleSubmit}>
+        {error?.error && <Notification content={error?.error} isError={true} />}
         <Input
-          id="email"
-          name="email"
-          type="email"
-          autoComplete="email"
+          id="username"
+          name="username"
+          type="text"
           required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          title={"Email address"}
+          value={login?.username}
+          onChange={handleLogin}
+          title={"User name"}
         />
         <Input
           id="password"
@@ -34,8 +44,8 @@ const Login = () => {
           type="password"
           autoComplete="current-password"
           required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={login?.password}
+          onChange={handleLogin}
           title={"Password"}
         />
 
@@ -68,9 +78,11 @@ const Login = () => {
         <div>
           <button
             type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+            className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white focus:outline-none ${
+              loading ? "bg-gray-400" : "bg-pink-600 hover:bg-pink-700"
+            }`}
           >
-            Sign in
+            {loading ? <Loading size="w-6 h-6" /> : " Sign in"}
           </button>
         </div>
       </form>

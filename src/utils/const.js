@@ -22,7 +22,8 @@ export const statusArr = [
   { code: "Cancelled", style: "bg-red-200 text-red-800" },
 ];
 export const OAUTH2_INFO = {
-  client_id: "6LEtFNLwpjRvQSCsyJ2V8jL8E9vgOI9YykyIjR84",
+  grant_type: "password",
+  client_id: "bkii3qBwbEQ7BQTZVwCPgtG8g8PPBD6oLywQjpys",
   client_secret:
-    "iAQ3nHW1tSxJOVYkChPTmpAj1IGdDcVSCzvvrncVRK3TIPJYCos3qPn1KLDZeFqzjtlZhpJ4PqM0XRmzWpsQ41zHaSrEiCQf5jEljYuUjXlS2GerwdPHcJei11NtVhZu",
+    "fFa7ZSkjNbFGRaTRRNwjs2MtxnDtonokEmPt6CIZrREqQqt2ml2exrHcGUGLOGHsEsXLzLS7hYwipYmmkMJd4PwZFinmgDWLKVDKnztVzkEawVk0qcNzNc8L1hclQ0Nk",
 };
