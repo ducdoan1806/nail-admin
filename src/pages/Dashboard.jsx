@@ -3,9 +3,11 @@ import http from "../app/http";
 import { convertToVietnamTime, convertToVND } from "../utils/util";
 import { Link } from "react-router-dom";
 import { statusArr } from "../utils/const";
+import Loading from "../components/Loading";
 
 function Dashboard() {
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [overview, setOverview] = useState({
     orderCount: 0,
     completedOrderCount: 0,
@@ -15,6 +17,7 @@ function Dashboard() {
 
   useEffect(() => {
     const getOrders = async () => {
+      setLoading(true);
       const res = await http.get(`/nail/overview/`);
 
       setOrders(res.data.data.recent_order);
@@ -24,11 +27,17 @@ function Dashboard() {
         totalRevenue: res.data.data?.total_revenue,
         productCount: res.data.data?.product_count,
       });
+      setLoading(false);
     };
     getOrders();
   }, []);
   return (
     <div>
+      {loading && (
+        <div className="fixed top-0 left-0 bottom-0 right-0 bg-white bg-opacity-70 flex items-center justify-center z-20">
+          <Loading />
+        </div>
+      )}
       <h2 className="text-2xl font-bold mb-6">Dashboard</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <div className="bg-white p-6 rounded-lg shadow-md">

@@ -7,13 +7,14 @@ import {
 } from "../features/products/api";
 import ProductImage from "../components/ProductImage";
 import ProductVariants from "../components/ProductVariants";
+import Loading from "../components/Loading";
 
 export default function ProductDetail() {
   const dispatch = useDispatch();
   const location = useLocation();
   const [isEditing, setIsEditing] = useState(false);
 
-  const { product } = useSelector((state) => state?.productDetail);
+  const { product, loading } = useSelector((state) => state?.productDetail);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -37,6 +38,11 @@ export default function ProductDetail() {
   }, [dispatch, location.pathname]);
   return (
     <div>
+      {loading && (
+        <div className="fixed top-0 left-0 bottom-0 right-0 bg-white bg-opacity-70 flex items-center justify-center z-20">
+          <Loading />
+        </div>
+      )}
       <Link to="/products" className="text-pink-600 hover:text-pink-800">
         <i className="fas fa-arrow-left mr-2 mb-4"></i>
         Back to Products
