@@ -6,7 +6,7 @@ const Category = () => {
   const { loading, categories } = useSelector((state) => state.category);
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden w-full lg:w-1/4">
-      <div className="px-5 py-3 border-b border-gray-200 flex justify-between items-center gap-3">
+      <div className="px-4 py-3 border-b border-gray-200 flex justify-between items-center gap-3">
         <h2 className="text-xl font-bold text-gray-800">Categories</h2>
         <div className="flex gap-2">
           <button className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 text-sm">
@@ -15,7 +15,7 @@ const Category = () => {
         </div>
       </div>
       <div
-        className="flex flex-col overflow-auto"
+        className="flex flex-col overflow-auto px-4 py-3 gap-3"
         style={{ maxHeight: "calc(-246px + 100vh)" }}
       >
         {categories.length ? (

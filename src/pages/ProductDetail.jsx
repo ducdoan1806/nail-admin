@@ -58,23 +58,27 @@ export default function ProductDetail() {
             <h2 className="text-2xl font-bold text-gray-800">
               Product Details
             </h2>
-            <div className="flex gap-2">
-              {isEditing ? (
-                <button
-                  onClick={handleSave}
-                  className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-sm"
-                >
-                  <i className="fas fa-save mr-2"></i>Save
+
+            {isEditing ? (
+              <button
+                onClick={handleSave}
+                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-sm"
+              >
+                <i className="fas fa-save mr-2"></i>Save
+              </button>
+            ) : (
+              <div className="flex gap-3">
+                <button className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 text-sm">
+                  <i className="fas fa-trash mr-2"></i> Delete
                 </button>
-              ) : (
                 <button
                   onClick={() => setIsEditing(true)}
                   className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 text-sm"
                 >
                   <i className="fas fa-edit mr-2"></i>Edit
                 </button>
-              )}
-            </div>
+              </div>
+            )}
           </div>
           <div className="p-6">
             <div
