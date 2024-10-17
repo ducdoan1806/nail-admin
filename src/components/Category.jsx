@@ -1,15 +1,34 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CategoryItem from "./CategoryItem";
 import Loading from "./Loading";
+import { useState } from "react";
+import { createCategoryApi } from "../features/products/api";
 
 const Category = () => {
-  const { loading, categories } = useSelector((state) => state.category);
+  const dispatch = useDispatch();
+  const { loading, categories, error } = useSelector((state) => state.category);
+  console.log("error: ", error);
+  const [isNewCategory, setIsNewCategory] = useState(false);
+  const [newCategory, setNewCategory] = useState({ code: "", name: "" });
+  const handleNewCategory = (e) => {
+    setNewCategory({ ...newCategory, [e.target.name]: e.target.value });
+  };
+  const handleCreateCategory = (e) => {
+    e.preventDefault();
+    dispatch(createCategoryApi(newCategory));
+    setIsNewCategory(false);
+    setNewCategory({ code: "", name: "" });
+  };
+
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden w-full lg:w-1/4">
       <div className="px-4 py-3 border-b border-gray-200 flex justify-between items-center gap-3">
         <h2 className="text-xl font-bold text-gray-800">Categories</h2>
         <div className="flex gap-2">
-          <button className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 text-sm">
+          <button
+            className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 text-sm"
+            onClick={() => setIsNewCategory(!isNewCategory)}
+          >
             <i className="fa-solid fa-plus"></i>
           </button>
         </div>
@@ -18,6 +37,44 @@ const Category = () => {
         className="flex flex-col overflow-auto px-4 py-3 gap-3"
         style={{ maxHeight: "calc(-246px + 100vh)" }}
       >
+        {isNewCategory && (
+          <form
+            className="flex justify-between gap-2 text-sm"
+            onSubmit={handleCreateCategory}
+          >
+            <div className="grid grid-cols-2 gap-2 w-full ">
+              <input
+                className="border-gray-100 disabled:bg-transparent outline-none border bg-gray-100 border-transparent px-2 py-1 rounded focus:border-pink-600"
+                type="text"
+                name="code"
+                value={newCategory?.code}
+                onChange={handleNewCategory}
+                placeholder="Type code..."
+              />
+
+              <input
+                className="border-gray-100 disabled:bg-transparent outline-none border bg-gray-100 border-transparent px-2 py-1 rounded focus:border-pink-600"
+                type="text"
+                name="name"
+                value={newCategory?.name}
+                placeholder="Type name..."
+                onChange={handleNewCategory}
+              />
+            </div>
+            <div className="flex gap-4">
+              <button className="text-red-500" type="submit">
+                <i className="fas fa-check"></i>
+              </button>
+              <button
+                className="text-blue-500"
+                type="button"
+                onClick={() => setIsNewCategory(!isNewCategory)}
+              >
+                <i className="fas fa-xmark"></i>
+              </button>
+            </div>
+          </form>
+        )}
         {categories.length ? (
           categories.map((category) => (
             <CategoryItem key={category?.id} {...category} />
