@@ -17,7 +17,7 @@ const CartItem = (props) => {
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
-          title={props?.detail.color_name}
+          title={props?.detail.color_code}
           className="inline-block w-6 h-6 rounded-full border border-gray-300"
           style={{ background: props?.detail.color_code }}
         ></span>

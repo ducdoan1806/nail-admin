@@ -3,12 +3,11 @@ import ProductVariantItem from "./ProductVariantItem";
 import { useState } from "react";
 const ProductVariants = ({ productDetail }) => {
   const [variant, setVariant] = useState({
-    color_code: "",
-    color_name: "",
+    color_code: "transparent",
     price: 0,
     quantity: 0,
   });
- 
+
   const handleDetailProductChange = (e) => {
     setVariant({ ...variant, [e.target.name]: e.target.value });
   };
@@ -16,7 +15,7 @@ const ProductVariants = ({ productDetail }) => {
     <div className="mt-6">
       <h3 className="text-lg font-semibold mb-4">Product Variants</h3>
       <div className="mb-4 p-4 border rounded-lg">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Price
@@ -44,32 +43,27 @@ const ProductVariants = ({ productDetail }) => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="color_code"
+              className="block text-sm font-medium text-gray-700"
+            >
               Color Code
             </label>
-
             <input
-              type="text"
+              id="color_code"
+              type="color"
               name="color_code"
               placeholder="Color code"
-              value={variant.color_code}
+              value={
+                variant.color_code === "transparent"
+                  ? "#ffffff"
+                  : variant.color_code
+              }
               onChange={handleDetailProductChange}
-              className="block w-full bg-gray-100 border-gray-100 outline-none p-2 rounded-md mt-1 focus:border-pink-600 border text-sm"
+              className="w-full bg-gray-100 border-gray-100 outline-none rounded-md mt-1 h-10 focus:border-pink-600 border text-sm"
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Color Name
-            </label>
-            <input
-              type="text"
-              name="color_name"
-              placeholder="Color name"
-              value={variant.color_name}
-              onChange={handleDetailProductChange}
-              className="block w-full bg-gray-100 border-gray-100 outline-none p-2 rounded-md mt-1 focus:border-pink-600 border text-sm"
-            />
-          </div>
+
           <div className="flex items-end justify-end">
             <button
               onClick={() => {}}
@@ -83,7 +77,6 @@ const ProductVariants = ({ productDetail }) => {
       {productDetail.map((detail) => (
         <ProductVariantItem key={detail.id} {...detail} />
       ))}
-    
     </div>
   );
 };
