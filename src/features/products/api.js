@@ -1,4 +1,5 @@
 import http from "../../app/http";
+import categorySlice from "./categorySlice";
 import productDetailSlice from "./productDetailSlice";
 import productSlice from "./productSlice";
 
@@ -34,5 +35,14 @@ export const updateProductDetailApi = (product) => async (dispatch) => {
     dispatch(
       productDetailSlice.actions.updateProductDetailFail(e?.response?.data)
     );
+  }
+};
+export const categoryApi = () => async (dispatch) => {
+  dispatch(categorySlice.actions.getCategory());
+  try {
+    const res = await http.get(`/nail/categories/?page=1&page_size=999`);
+    dispatch(categorySlice.actions.getCategorySuccess(res?.data));
+  } catch (e) {
+    dispatch(categorySlice.actions.getCategoryFail(e?.response?.data));
   }
 };

@@ -37,7 +37,7 @@ const Sidebar = () => {
             to={item.path}
             className={
               activePath(item.path) +
-              "block py-3 px-4 hover:bg-gray-700 transition duration-200"
+              "block py-3 px-4 hover:bg-gray-700 transition duration-200 text-nowrap"
             }
           >
             <i className={item.icon}></i>

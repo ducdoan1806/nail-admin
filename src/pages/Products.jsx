@@ -2,16 +2,39 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductApi } from "../features/products/api";
 import { API_URL } from "../app/http";
-import { convertToVND } from "../utils/util";
+import { convertToVND, useDebounced } from "../utils/util";
 import { Link } from "react-router-dom";
+import productSlice from "../features/products/productSlice";
+import Loading from "../components/Loading";
 
 const Products = () => {
   const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.product);
-
+  const { products, count, page, pageSize, search, loading } = useSelector(
+    (state) => state.product
+  );
+  const debouncedSearch = useDebounced((query) => {
+    dispatch(productSlice.actions.setSearchQuery({ search: query }));
+  }, 500);
+  const handleSearch = (e) => {
+    debouncedSearch(e.target.value);
+  };
+  const handleScroll = (e) => {
+    const { scrollTop, clientHeight, scrollHeight } = e.target;
+    if (scrollHeight <= scrollTop + clientHeight && count > products?.length) {
+      if (!loading) {
+        dispatch(
+          productSlice.actions.updatePagination({
+            page: page + 1,
+            pageSize,
+          })
+        );
+        dispatch(getProductApi({ page: page + 1, pageSize, search }));
+      }
+    }
+  };
   useEffect(() => {
-    dispatch(getProductApi({ page: 1, pageSize: 10 }));
-  }, [dispatch]);
+    if (page === 1) dispatch(getProductApi({ page, pageSize, search }));
+  }, [dispatch, page, pageSize, search]);
   return (
     <div>
       <h2 className="text-2xl font-bold mb-6">Products</h2>
@@ -21,6 +44,7 @@ const Products = () => {
             type="text"
             placeholder="Search products..."
             autoFocus
+            onChange={handleSearch}
             className="border rounded-md px-2 py-1 w-64 text-sm focus:border-gray-500 outline-none"
           />
           <button className="bg-pink-600 text-white text-sm py-2 px-4 rounded-md hover:bg-pink-700">
@@ -30,6 +54,7 @@ const Products = () => {
         <div
           className="overflow-auto"
           style={{ height: "calc(100vh - 270px)" }}
+          onScroll={handleScroll}
         >
           <table className="w-full text-sm">
             <thead>
@@ -40,7 +65,6 @@ const Products = () => {
                 <th className="text-left p-2">Category</th>
                 <th className="text-left p-2">Price</th>
                 <th className="text-left p-2">Stock</th>
-                <th className="text-left p-2"></th>
               </tr>
             </thead>
             <tbody>
@@ -51,6 +75,11 @@ const Products = () => {
                     <Link
                       className="text-pink-600 underline hover:text-pink-800"
                       to={`/products/${product?.id}`}
+                      onClick={() =>
+                        dispatch(
+                          productSlice.actions.setSearchQuery({ search: "" })
+                        )
+                      }
                     >
                       {product?.name}
                     </Link>
@@ -70,15 +99,15 @@ const Products = () => {
                       0
                     )}
                   </td>
-                  <td className="p-2">
-                    <button className="text-red-600 hover:text-red-800">
-                      <i className="fas fa-trash"></i>
-                    </button>
-                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          {loading && (
+            <div className="mt-4 flex justify-center">
+              <Loading size={8} />
+            </div>
+          )}
         </div>
       </div>
     </div>

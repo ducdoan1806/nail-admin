@@ -133,7 +133,7 @@ const Orders = () => {
           </table>
           {loading && (
             <div className="mt-4 flex justify-center">
-              <Loading size="w-8 h-8" />
+              <Loading size={8} />
             </div>
           )}
         </div>

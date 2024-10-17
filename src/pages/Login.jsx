@@ -82,7 +82,7 @@ const Login = () => {
               loading ? "bg-gray-400" : "bg-pink-600 hover:bg-pink-700"
             }`}
           >
-            {loading ? <Loading size="w-6 h-6" /> : " Sign in"}
+            {loading ? <Loading size={6} /> : " Sign in"}
           </button>
         </div>
       </form>

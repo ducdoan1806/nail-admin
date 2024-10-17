@@ -138,7 +138,7 @@ const Register = () => {
               loading ? "bg-gray-400" : "bg-pink-600 hover:bg-pink-700"
             }`}
           >
-            {loading ? <Loading size="w-6 h-6" /> : "Register"}
+            {loading ? <Loading size={6} /> : "Register"}
           </button>
         </div>
       </form>
