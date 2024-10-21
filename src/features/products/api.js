@@ -76,3 +76,12 @@ export const updateCategoryApi = (category, id) => async (dispatch) => {
     dispatch(categorySlice.actions.updateCategoryFail(e?.response?.data));
   }
 };
+export const deleteCategoryApi = (id) => async (dispatch) => {
+  dispatch(categorySlice.actions.deleteCategory());
+  try {
+    const res = await authHttp.delete(`/nail/categories/${id}/`);
+    dispatch(categorySlice.actions.deleteCategorySuccess(res?.data));
+  } catch (e) {
+    dispatch(categorySlice.actions.deleteCategoryFail(e?.response?.data));
+  }
+};

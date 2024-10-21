@@ -33,8 +33,9 @@ const categorySlice = createSlice({
     },
     createCategorySuccess: (state, action) => {
       state.loading = false;
-      state.count = state.count + 1;
+
       state.categories.unshift(action.payload.data);
+      state.count = state.categories.length;
       state.message = action.payload.message;
       state.isError = false;
     },
@@ -55,6 +56,23 @@ const categorySlice = createSlice({
       state.isError = false;
     },
     updateCategoryFail: (state, action) => {
+      state.loading = false;
+      state.message = JSON.stringify(action.payload);
+      state.isError = true;
+    },
+    deleteCategory: (state) => {
+      state.loading = true;
+    },
+    deleteCategorySuccess: (state, action) => {
+      state.loading = false;
+      state.categories = state.categories.filter(
+        (item) => action.payload?.data?.id !== item?.id
+      );
+      state.count = state.categories.length;
+      state.message = action.payload.message;
+      state.isError = false;
+    },
+    deleteCategoryFail: (state, action) => {
       state.loading = false;
       state.message = JSON.stringify(action.payload);
       state.isError = true;

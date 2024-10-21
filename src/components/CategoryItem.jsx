@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { updateCategoryApi } from "../features/products/api";
+import { updateCategoryApi, deleteCategoryApi } from "../features/products/api";
 const CategoryItem = ({ id, code, name }) => {
   const dispatch = useDispatch();
   const [category, setCategory] = useState({
@@ -26,7 +26,11 @@ const CategoryItem = ({ id, code, name }) => {
     e.preventDefault();
     setIsDelete(!isDelete);
   };
-
+  const deleteCategory = (e) => {
+    e.preventDefault();
+    dispatch(deleteCategoryApi(id));
+    setIsDelete(false);
+  };
   return (
     <div>
       <div className="flex justify-between gap-2 text-sm">
@@ -85,7 +89,12 @@ const CategoryItem = ({ id, code, name }) => {
             >
               Cancel
             </button>
-            <button className="text-red-600 font-semibold">Delete</button>
+            <button
+              onClick={deleteCategory}
+              className="text-red-600 font-semibold"
+            >
+              Delete
+            </button>
           </div>
         </div>
       )}
