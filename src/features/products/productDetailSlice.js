@@ -45,14 +45,31 @@ const productDetailSlice = createSlice({
     },
     updateProductDetailSuccess: (state, action) => {
       state.loading = false;
-      state.product = action.payload;
+      state.product.detail_products = state.product.detail_products.map(
+        (item) => (item.id === action.payload?.id ? action.payload : item)
+      );
       state.message = action.payload?.message;
       state.isError = false;
     },
     updateProductDetailFail: (state, action) => {
       state.loading = false;
-      state.product = null;
-      state.message = action.payload;
+      state.message = JSON.stringify(action.payload);
+      state.isError = true;
+    },
+    deleteProductDetail: (state) => {
+      state.loading = true;
+    },
+    deleteProductDetailSuccess: (state, action) => {
+      state.loading = false;
+      state.product.detail_products = state.product.detail_products.filter(
+        (item) => item.id !== action.payload?.data?.id
+      );
+      state.message = action.payload?.message;
+      state.isError = false;
+    },
+    deleteProductDetailFail: (state, action) => {
+      state.loading = false;
+      state.message = JSON.stringify(action.payload);
       state.isError = true;
     },
   },

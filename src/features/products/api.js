@@ -26,16 +26,7 @@ export const getProductDetailApi = (productId) => async (dispatch) => {
     );
   }
 };
-export const updateProductDetailApi = (product) => async (dispatch) => {
-  dispatch(productDetailSlice.actions.updateProductDetail());
-  try {
-    dispatch(productDetailSlice.actions.updateProductDetailSuccess(product));
-  } catch (e) {
-    dispatch(
-      productDetailSlice.actions.updateProductDetailFail(e?.response?.data)
-    );
-  }
-};
+
 export const createProductVariantApi = (newProduct) => async (dispatch) => {
   dispatch(productDetailSlice.actions.createProductDetail());
   try {
@@ -53,6 +44,29 @@ export const createProductVariantApi = (newProduct) => async (dispatch) => {
   } catch (e) {
     dispatch(
       productDetailSlice.actions.createProductDetailFail(e?.response?.data)
+    );
+  }
+};
+export const updateProductDetailApi = (product) => async (dispatch) => {
+  dispatch(productDetailSlice.actions.updateProductDetail());
+  try {
+    dispatch(productDetailSlice.actions.updateProductDetailSuccess(product));
+  } catch (e) {
+    dispatch(
+      productDetailSlice.actions.updateProductDetailFail(e?.response?.data)
+    );
+  }
+};
+export const deleteProductVariantApi = (id) => async (dispatch) => {
+  dispatch(productDetailSlice.actions.deleteProductDetail());
+  try {
+    const res = await authHttp.delete(`/nail/product-detail/${id}/`);
+    dispatch(
+      productDetailSlice.actions.deleteProductDetailSuccess(res?.data)
+    );
+  } catch (e) {
+    dispatch(
+      productDetailSlice.actions.deleteProductDetailFail(e?.response?.data)
     );
   }
 };

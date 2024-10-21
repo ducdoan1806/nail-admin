@@ -80,7 +80,7 @@ const CategoryItem = ({ id, code, name }) => {
         )}
       </div>
       {isDelete && (
-        <div className="px-4 py-2 bg-red-100 text-sm flex justify-between gap-4 rounded mt-1">
+        <div className="px-4 py-2 bg-red-100 border border-red-300 text-sm flex justify-between gap-4 rounded mt-1">
           <p>Do you want delete this category ?</p>
           <div className="flex  gap-3">
             <button
