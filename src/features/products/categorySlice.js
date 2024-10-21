@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   loading: false,
   error: null,
+  isError: false,
+  message: null,
   categories: [],
 };
 const categorySlice = createSlice({
@@ -11,7 +13,8 @@ const categorySlice = createSlice({
   reducers: {
     resetError: (state) => {
       state.loading = false;
-      state.error = null;
+      state.message = null;
+      state.isError = false;
     },
     getCategory: (state) => {
       state.loading = true;
@@ -25,7 +28,7 @@ const categorySlice = createSlice({
     getCategoryFail: (state, action) => {
       state.loading = false;
       state.categories = [];
-      state.error = action.payload;
+      state.message = action.payload;
     },
     createCategory: (state) => {
       state.loading = true;
@@ -34,11 +37,13 @@ const categorySlice = createSlice({
       state.loading = false;
       state.count = state.count + 1;
       state.categories.unshift(action.payload.data);
-      state.error = null;
+      state.message = action.payload.message;
+      state.isError = false;
     },
     createCategoryFail: (state, action) => {
       state.loading = false;
-      state.error = action.payload;
+      state.message = JSON.stringify(action.payload);
+      state.isError = true;
     },
   },
 });

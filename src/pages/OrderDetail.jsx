@@ -6,9 +6,12 @@ import { statusArr } from "../utils/const";
 import { convertToVND } from "../utils/util";
 import Loading from "../components/Loading";
 import CartItem from "../components/CartItem";
+import NotifyTag from "../components/NotifyTag";
+import orderSlice from "../features/orders/orderSlice";
 const OrderDetail = () => {
   const dispatch = useDispatch();
   const { order, loading } = useSelector((state) => state.orderDetail);
+  const { isError, message } = useSelector((state) => state.order);
   const [isEdit, setIsEdit] = useState(false);
   const location = useLocation();
   const formatDate = (dateString) => {
@@ -48,6 +51,15 @@ const OrderDetail = () => {
         </Link>
       </div>
       <div className="flex flex-col md:flex-row gap-4">
+        {message && (
+          <NotifyTag
+            isError={isError}
+            content={message}
+            onClose={() => {
+              dispatch(orderSlice.actions.reset());
+            }}
+          />
+        )}
         {/* Left side: Order Details */}
         <div className="md:w-1/2">
           <div className="bg-white shadow overflow-hidden sm:rounded-lg">

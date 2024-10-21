@@ -34,7 +34,7 @@ export const updateOrderApi =
         `/nail/order/${orderId}/`,
         JSON.stringify({ status })
       );
-      dispatch(orderSlice.actions.updateOrderSuccess(res?.data?.data));
+      dispatch(orderSlice.actions.updateOrderSuccess(res?.data));
       dispatch(orderDetailSlice.actions.getOrderDetailSuccess(res?.data?.data));
     } catch (e) {
       dispatch(orderSlice.actions.updateOrderFail(e?.response?.data));

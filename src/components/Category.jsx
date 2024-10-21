@@ -3,11 +3,15 @@ import CategoryItem from "./CategoryItem";
 import Loading from "./Loading";
 import { useState } from "react";
 import { createCategoryApi } from "../features/products/api";
+import NotifyTag from "./NotifyTag";
+import categorySlice from "../features/products/categorySlice";
 
 const Category = () => {
   const dispatch = useDispatch();
-  const { loading, categories, error } = useSelector((state) => state.category);
-  console.log("error: ", error);
+  const { loading, categories, count, message, isError } = useSelector(
+    (state) => state.category
+  );
+
   const [isNewCategory, setIsNewCategory] = useState(false);
   const [newCategory, setNewCategory] = useState({ code: "", name: "" });
   const handleNewCategory = (e) => {
@@ -22,8 +26,19 @@ const Category = () => {
 
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden w-full lg:w-1/4">
+      {message && (
+        <NotifyTag
+          content={message}
+          isError={isError}
+          onClose={() => {
+            dispatch(categorySlice.actions.resetError());
+          }}
+        />
+      )}
       <div className="px-4 py-3 border-b border-gray-200 flex justify-between items-center gap-3">
-        <h2 className="text-xl font-bold text-gray-800">Categories</h2>
+        <h2 className="text-xl font-bold text-gray-800">
+          Categories ({count ?? 0})
+        </h2>
         <div className="flex gap-2">
           <button
             className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 text-sm"
