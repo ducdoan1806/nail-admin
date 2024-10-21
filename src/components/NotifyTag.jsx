@@ -14,7 +14,14 @@ const NotifyTag = ({ content, isError, onClose }) => {
           : "bg-green-200 text-green-700 border-green-300"
       }`}
     >
-      <p className="text-sm">{content}</p>
+      <p className="text-sm">
+        {!isError ? (
+          <i className="fa-solid fa-circle-info mr-2 text-base"></i>
+        ) : (
+          <i className="fa-solid fa-triangle-exclamation mr-2 text-base"></i>
+        )}
+        {content}
+      </p>
       <button type="button" onClick={onClose}>
         <i className="fa-solid fa-xmark"></i>
       </button>
