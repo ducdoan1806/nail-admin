@@ -1,4 +1,4 @@
-import http from "../../app/http";
+import http, { authHttp } from "../../app/http";
 import orderDetailSlice from "./orderDetailSlice";
 import orderSlice from "./orderSlice";
 
@@ -7,7 +7,7 @@ export const getOrderApi =
   async (dispatch) => {
     dispatch(orderSlice.actions.getOrder());
     try {
-      const res = await http.get(
+      const res = await authHttp.get(
         `/nail/order/?page_size=${pageSize}&page=${page}&status=${status}&search=${search}`
       );
       dispatch(orderSlice.actions.getOrderSuccess(res.data));
@@ -30,7 +30,7 @@ export const updateOrderApi =
     dispatch(orderSlice.actions.updateOrder());
     dispatch(orderDetailSlice.actions.getOrderDetail());
     try {
-      const res = await http.patch(
+      const res = await authHttp.patch(
         `/nail/order/${orderId}/`,
         JSON.stringify({ status })
       );

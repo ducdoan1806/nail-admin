@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import http from "../app/http";
+import { authHttp } from "../app/http";
 import { convertToVietnamTime, convertToVND } from "../utils/util";
 import { Link } from "react-router-dom";
 import { statusArr } from "../utils/const";
@@ -18,7 +18,7 @@ function Dashboard() {
   useEffect(() => {
     const getOrders = async () => {
       setLoading(true);
-      const res = await http.get(`/nail/overview/`);
+      const res = await authHttp.get(`/nail/overview/`);
 
       setOrders(res.data.data.recent_order);
       setOverview({
