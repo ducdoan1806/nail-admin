@@ -6,7 +6,7 @@ import productSlice from "../features/products/productSlice";
 import productDetailSlice from "../features/products/productDetailSlice";
 import authSlice from "../features/auth/authSlice";
 import userSlice from "../features/auth/userSlice";
-import categorySlice from "../features/products/categorySlice";
+import categorySlice from "../features/categories/categorySlice";
 
 const rootReducer = combineReducers({
   order: orderSlice.reducer,

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { updateCategoryApi, deleteCategoryApi } from "../features/products/api";
+import { updateCategoryApi, deleteCategoryApi } from "../features/categories/api";
 const CategoryItem = ({ id, code, name }) => {
   const dispatch = useDispatch();
   const [category, setCategory] = useState({

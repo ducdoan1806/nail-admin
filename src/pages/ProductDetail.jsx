@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import {
-  categoryApi,
   getProductDetailApi,
   updateProductDetailApi,
 } from "../features/products/api";
@@ -10,6 +9,7 @@ import ProductImage from "../components/ProductImage";
 import ProductVariants from "../components/ProductVariants";
 import Loading from "../components/Loading";
 import Category from "../components/Category";
+import { categoryApi } from "../features/categories/api";
 
 export default function ProductDetail() {
   const dispatch = useDispatch();
@@ -146,6 +146,7 @@ export default function ProductDetail() {
                 </div>
 
                 <ProductVariants
+                  productId={product?.id}
                   productDetail={product?.detail_products || []}
                 />
               </div>

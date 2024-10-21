@@ -2,9 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import CategoryItem from "./CategoryItem";
 import Loading from "./Loading";
 import { useState } from "react";
-import { createCategoryApi } from "../features/products/api";
+import { createCategoryApi } from "../features/categories/api";
 import NotifyTag from "./NotifyTag";
-import categorySlice from "../features/products/categorySlice";
+import categorySlice from "../features/categories/categorySlice";
 
 const Category = () => {
   const dispatch = useDispatch();
