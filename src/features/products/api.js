@@ -61,3 +61,18 @@ export const createCategoryApi = (newCategory) => async (dispatch) => {
     dispatch(categorySlice.actions.createCategoryFail(e?.response?.data));
   }
 };
+export const updateCategoryApi = (category, id) => async (dispatch) => {
+  dispatch(categorySlice.actions.updateCategory());
+  try {
+    const res = await authHttp.put(
+      `/nail/categories/${id}/`,
+      JSON.stringify({
+        code: category?.code?.trim(),
+        name: category?.name?.trim(),
+      })
+    );
+    dispatch(categorySlice.actions.updateCategorySuccess(res?.data));
+  } catch (e) {
+    dispatch(categorySlice.actions.updateCategoryFail(e?.response?.data));
+  }
+};

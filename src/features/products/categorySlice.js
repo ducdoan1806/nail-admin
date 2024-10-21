@@ -12,9 +12,7 @@ const categorySlice = createSlice({
   initialState,
   reducers: {
     resetError: (state) => {
-      state.loading = false;
       state.message = null;
-      state.isError = false;
     },
     getCategory: (state) => {
       state.loading = true;
@@ -41,6 +39,22 @@ const categorySlice = createSlice({
       state.isError = false;
     },
     createCategoryFail: (state, action) => {
+      state.loading = false;
+      state.message = JSON.stringify(action.payload);
+      state.isError = true;
+    },
+    updateCategory: (state) => {
+      state.loading = true;
+    },
+    updateCategorySuccess: (state, action) => {
+      state.loading = false;
+      state.categories = state.categories.map((item) =>
+        action.payload?.data?.id === item?.id ? action.payload?.data : item
+      );
+      state.message = action.payload.message;
+      state.isError = false;
+    },
+    updateCategoryFail: (state, action) => {
       state.loading = false;
       state.message = JSON.stringify(action.payload);
       state.isError = true;

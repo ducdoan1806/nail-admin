@@ -1,6 +1,9 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-const CategoryItem = ({ code, name }) => {
+import { useDispatch } from "react-redux";
+import { updateCategoryApi } from "../features/products/api";
+const CategoryItem = ({ id, code, name }) => {
+  const dispatch = useDispatch();
   const [category, setCategory] = useState({
     name: name || "",
     code: code || "",
@@ -14,10 +17,16 @@ const CategoryItem = ({ code, name }) => {
     e.preventDefault();
     setIsEdit(!isEdit);
   };
+  const saveCategory = (e) => {
+    e.preventDefault();
+    dispatch(updateCategoryApi(category, id));
+    setIsEdit(false);
+  };
   const handleIsDelete = (e) => {
     e.preventDefault();
     setIsDelete(!isDelete);
   };
+
   return (
     <div>
       <div className="flex justify-between gap-2 text-sm">
@@ -48,7 +57,7 @@ const CategoryItem = ({ code, name }) => {
         </div>
         {isEdit ? (
           <div className="flex gap-4">
-            <button className="text-red-500">
+            <button className="text-red-500" onClick={saveCategory}>
               <i className="fas fa-check"></i>
             </button>
             <button className="text-blue-500" onClick={handleIsEdit}>
