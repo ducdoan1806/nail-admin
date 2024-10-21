@@ -1,7 +1,14 @@
 import PropTypes from "prop-types";
 import ProductVariantItem from "./ProductVariantItem";
+import NotifyTag from "./NotifyTag";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createProductVariantApi } from "../features/products/api";
+import productDetailSlice from "../features/products/productDetailSlice";
 const ProductVariants = ({ productDetail, productId }) => {
+  const dispatch = useDispatch();
+  const { isError, message } = useSelector((state) => state.productDetail);
+
   const [isAddVariant, setIsAddVariant] = useState(false);
   const [variant, setVariant] = useState({
     product: productId,
@@ -13,16 +20,30 @@ const ProductVariants = ({ productDetail, productId }) => {
     e.preventDefault();
     setIsAddVariant(!isAddVariant);
     setVariant({
+      product: productId,
       colorCode: "transparent",
       price: 0,
       quantity: 0,
     });
+  };
+  const addVariant = () => {
+    dispatch(createProductVariantApi(variant));
+    setIsAddVariant(false);
   };
   const handleDetailProductChange = (e) => {
     setVariant({ ...variant, [e.target.name]: e.target.value });
   };
   return (
     <div className="mt-6">
+      {message && (
+        <NotifyTag
+          content={message}
+          isError={isError}
+          onClose={() => {
+            dispatch(productDetailSlice.actions.reset());
+          }}
+        />
+      )}
       <h3 className="text-lg font-semibold mb-4 flex justify-between items-center">
         Product Variants
         <button
@@ -85,7 +106,7 @@ const ProductVariants = ({ productDetail, productId }) => {
 
             <div className="flex items-end justify-end">
               <button
-                onClick={() => {}}
+                onClick={addVariant}
                 className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-sm"
               >
                 <i className="fas fa-save mr-2"></i>Save

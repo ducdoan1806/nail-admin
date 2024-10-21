@@ -1,5 +1,4 @@
-import http from "../../app/http";
-
+import http, { authHttp } from "../../app/http";
 import productDetailSlice from "./productDetailSlice";
 import productSlice from "./productSlice";
 
@@ -34,6 +33,26 @@ export const updateProductDetailApi = (product) => async (dispatch) => {
   } catch (e) {
     dispatch(
       productDetailSlice.actions.updateProductDetailFail(e?.response?.data)
+    );
+  }
+};
+export const createProductVariantApi = (newProduct) => async (dispatch) => {
+  dispatch(productDetailSlice.actions.createProductDetail());
+  try {
+    const res = await authHttp.post(
+      `/nail/product-detail/`,
+      JSON.stringify({
+        product: newProduct?.product,
+        price: newProduct?.price,
+        color_code: newProduct?.colorCode,
+        color_name: newProduct?.colorCode,
+        quantity: newProduct?.quantity,
+      })
+    );
+    dispatch(productDetailSlice.actions.createProductDetailSuccess(res?.data));
+  } catch (e) {
+    dispatch(
+      productDetailSlice.actions.createProductDetailFail(e?.response?.data)
     );
   }
 };
