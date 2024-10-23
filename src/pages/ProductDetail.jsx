@@ -10,7 +10,6 @@ import ProductImage from "../components/ProductImage";
 import ProductVariants from "../components/ProductVariants";
 import Loading from "../components/Loading";
 import Category from "../components/Category";
-import { categoryApi } from "../features/categories/api";
 import NotifyModal from "../components/NotifyModal";
 import productDetailSlice from "../features/products/productDetailSlice";
 
@@ -58,9 +57,7 @@ export default function ProductDetail() {
       });
     }
   }, [product]);
-  useEffect(() => {
-    dispatch(categoryApi());
-  }, [dispatch]);
+
   useEffect(() => {
     if (message === "Product is deleted.") {
       navigate("/products");

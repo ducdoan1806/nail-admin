@@ -24,16 +24,32 @@ export const getProductApi = (productId) => async (dispatch) => {
     dispatch(productDetailSlice.actions.getProductFail(e?.response?.data));
   }
 };
+export const createProductApi = (product) => async (dispatch) => {
+  dispatch(productDetailSlice.actions.updateProduct());
+  try {
+    const res = await authHttp.post(
+      `/nail/products/`,
+      JSON.stringify({
+        name: product?.name.trim(),
+        detail: product?.detail.trim(),
+        description: product?.description.trim(),
+        category: Number(product?.category),
+      })
+    );
+    dispatch(productDetailSlice.actions.updateProductSuccess(res?.data));
+  } catch (e) {
+    dispatch(productDetailSlice.actions.updateProductFail(e?.response?.data));
+  }
+};
 export const updateProductApi = (product) => async (dispatch) => {
-  console.log("product: ", product);
   dispatch(productDetailSlice.actions.updateProduct());
   try {
     const res = await authHttp.put(
       `/nail/products/${product?.id}/`,
       JSON.stringify({
-        name: product?.name,
-        detail: product?.detail,
-        description: product?.description,
+        name: product?.name.trim(),
+        detail: product?.detail.trim(),
+        description: product?.description.trim(),
         category: product?.category,
       })
     );
@@ -59,8 +75,8 @@ export const createProductVariantApi = (newProduct) => async (dispatch) => {
       JSON.stringify({
         product: newProduct?.product,
         price: newProduct?.price,
-        color_code: newProduct?.colorCode,
-        color_name: newProduct?.colorCode,
+        color_code: newProduct?.colorCode.trim(),
+        color_name: newProduct?.colorCode.trim(),
         quantity: newProduct?.quantity,
       })
     );
@@ -78,8 +94,8 @@ export const updateProductDetailApi = (variant, id) => async (dispatch) => {
       `/nail/product-detail/${id}/`,
       JSON.stringify({
         price: variant?.price,
-        color_code: variant?.color_code,
-        color_name: variant?.color_code,
+        color_code: variant?.color_code.trim(),
+        color_name: variant?.color_code.trim(),
         quantity: variant?.quantity,
         product: variant?.product,
       })

@@ -5,10 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getUserApi } from "../features/auth/api";
 import Loading from "../components/Loading";
+import { categoryApi } from "../features/categories/api";
 
 const Main = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.user);
+  useEffect(() => {
+    dispatch(categoryApi());
+  }, [dispatch]);
   useEffect(() => {
     dispatch(getUserApi());
   }, [dispatch]);

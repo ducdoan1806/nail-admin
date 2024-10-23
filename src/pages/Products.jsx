@@ -8,6 +8,7 @@ import productSlice from "../features/products/productSlice";
 import Loading from "../components/Loading";
 import NotifyTag from "../components/NotifyTag";
 import productDetailSlice from "../features/products/productDetailSlice";
+import CreateProductModal from "../components/CreateProductModal";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -124,6 +125,7 @@ const Products = () => {
           )}
         </div>
       </div>
+      <CreateProductModal />
     </div>
   );
 };

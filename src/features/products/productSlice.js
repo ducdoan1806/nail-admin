@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   loading: false,
-  error: null,
+  isError: false,
+  message: null,
   products: [],
   page: 1,
   pageSize: 20,
@@ -29,12 +30,28 @@ const productSlice = createSlice({
       state.count = action.payload.count;
       if (state.page === 1) state.products = action.payload.results;
       else state.products = [...state.products, ...action.payload.results];
-      state.error = null;
+      state.message = null;
+      state.isError = false;
     },
     getProductFail: (state, action) => {
       state.loading = false;
-      state.products = [];
-      state.error = action.payload;
+      state.message = JSON.stringify(action.payload);
+      state.isError = true;
+    },
+    createProduct: (state) => {
+      state.loading = true;
+    },
+    createProductSuccess: (state, action) => {
+      state.loading = false;
+      state.count = action.payload.count + 1;
+      state.products.push(action.payload?.data);
+      state.message = action.payload?.message;
+      state.isError = false;
+    },
+    createProductFail: (state, action) => {
+      state.loading = false;
+      state.message = JSON.stringify(action.payload);
+      state.isError = true;
     },
   },
 });
