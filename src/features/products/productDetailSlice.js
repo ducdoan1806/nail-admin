@@ -40,6 +40,20 @@ const productDetailSlice = createSlice({
       state.message = JSON.stringify(action.payload);
       state.isError = true;
     },
+    deleteProduct: (state) => {
+      state.loading = true;
+    },
+    deleteProductSuccess: (state, action) => {
+      state.loading = false;
+      state.product = null;
+      state.message = action.payload?.message;
+      state.isError = false;
+    },
+    deleteProductFail: (state, action) => {
+      state.loading = false;
+      state.message = JSON.stringify(action.payload);
+      state.isError = true;
+    },
     createProductDetail: (state) => {
       state.loading = true;
     },

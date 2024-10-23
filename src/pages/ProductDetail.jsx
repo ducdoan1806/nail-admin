@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
-import { getProductApi, updateProductApi } from "../features/products/api";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  deleteProductApi,
+  getProductApi,
+  updateProductApi,
+} from "../features/products/api";
 import ProductImage from "../components/ProductImage";
 import ProductVariants from "../components/ProductVariants";
 import Loading from "../components/Loading";
@@ -10,6 +14,7 @@ import { categoryApi } from "../features/categories/api";
 
 export default function ProductDetail() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
   const [isEditing, setIsEditing] = useState(false);
   const { categories } = useSelector((state) => state.category);
@@ -32,6 +37,10 @@ export default function ProductDetail() {
   const handleSave = () => {
     dispatch(updateProductApi(productInfo));
     setIsEditing(false);
+  };
+  const handleDelete = () => {
+    dispatch(deleteProductApi(product?.id));
+    navigate("/products");
   };
   useEffect(() => {
     if (product) {
@@ -81,7 +90,10 @@ export default function ProductDetail() {
               </button>
             ) : (
               <div className="flex gap-3">
-                <button className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 text-sm">
+                <button
+                  className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 text-sm"
+                  onClick={handleDelete}
+                >
                   <i className="fas fa-trash mr-2"></i> Delete
                 </button>
                 <button

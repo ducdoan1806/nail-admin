@@ -42,6 +42,15 @@ export const updateProductApi = (product) => async (dispatch) => {
     dispatch(productDetailSlice.actions.updateProductFail(e?.response?.data));
   }
 };
+export const deleteProductApi = (id) => async (dispatch) => {
+  dispatch(productDetailSlice.actions.deleteProduct());
+  try {
+    const res = await authHttp.delete(`/nail/products/${id}/`);
+    dispatch(productDetailSlice.actions.deleteProductSuccess(res?.data));
+  } catch (e) {
+    dispatch(productDetailSlice.actions.deleteProductFail(e?.response?.data));
+  }
+};
 export const createProductVariantApi = (newProduct) => async (dispatch) => {
   dispatch(productDetailSlice.actions.createProductDetail());
   try {

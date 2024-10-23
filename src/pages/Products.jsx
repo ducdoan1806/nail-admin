@@ -6,12 +6,15 @@ import { convertToVND, useDebounced } from "../utils/util";
 import { Link } from "react-router-dom";
 import productSlice from "../features/products/productSlice";
 import Loading from "../components/Loading";
+import NotifyTag from "../components/NotifyTag";
+import productDetailSlice from "../features/products/productDetailSlice";
 
 const Products = () => {
   const dispatch = useDispatch();
   const { products, count, page, pageSize, search, loading } = useSelector(
     (state) => state.product
   );
+  const { message, isError } = useSelector((state) => state.productDetail);
   const debouncedSearch = useDebounced((query) => {
     dispatch(productSlice.actions.setSearchQuery({ search: query }));
   }, 500);
@@ -37,6 +40,15 @@ const Products = () => {
   }, [dispatch, page, pageSize, search]);
   return (
     <div>
+      {message && (
+        <NotifyTag
+          content={message}
+          isError={isError}
+          onClose={() => {
+            dispatch(productDetailSlice.actions.reset());
+          }}
+        />
+      )}
       <h2 className="text-2xl font-bold mb-6">Products</h2>
       <div className="bg-white p-6 rounded-lg shadow-md">
         <div className="flex justify-between items-center mb-4">
