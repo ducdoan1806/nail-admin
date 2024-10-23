@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductApi } from "../features/products/api";
+import { getProductsApi } from "../features/products/api";
 import { API_URL } from "../app/http";
 import { convertToVND, useDebounced } from "../utils/util";
 import { Link } from "react-router-dom";
@@ -28,12 +28,12 @@ const Products = () => {
             pageSize,
           })
         );
-        dispatch(getProductApi({ page: page + 1, pageSize, search }));
+        dispatch(getProductsApi({ page: page + 1, pageSize, search }));
       }
     }
   };
   useEffect(() => {
-    if (page === 1) dispatch(getProductApi({ page, pageSize, search }));
+    if (page === 1) dispatch(getProductsApi({ page, pageSize, search }));
   }, [dispatch, page, pageSize, search]);
   return (
     <div>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import {
-  getProductDetailApi,
+  getProductApi,
   updateProductDetailApi,
 } from "../features/products/api";
 import ProductImage from "../components/ProductImage";
@@ -34,7 +34,7 @@ export default function ProductDetail() {
   }, [dispatch]);
   useEffect(() => {
     dispatch(
-      getProductDetailApi(
+      getProductApi(
         location.pathname.split("/")[location.pathname.split("/").length - 1]
       )
     );

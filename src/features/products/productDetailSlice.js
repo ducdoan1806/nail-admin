@@ -13,15 +13,15 @@ const productDetailSlice = createSlice({
     reset: (state) => {
       state.message = null;
     },
-    getProductDetail: (state) => {
+    getProduct: (state) => {
       state.loading = true;
     },
-    getProductDetailSuccess: (state, action) => {
+    getProductSuccess: (state, action) => {
       state.loading = false;
       state.product = action.payload;
       state.message = null;
     },
-    getProductDetailFail: (state, action) => {
+    getProductFail: (state, action) => {
       state.loading = false;
       state.product = null;
       state.message = action.payload;

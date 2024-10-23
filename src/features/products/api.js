@@ -2,7 +2,7 @@ import http, { authHttp } from "../../app/http";
 import productDetailSlice from "./productDetailSlice";
 import productSlice from "./productSlice";
 
-export const getProductApi =
+export const getProductsApi =
   ({ page, pageSize, search = "" }) =>
   async (dispatch) => {
     dispatch(productSlice.actions.getProduct());
@@ -15,14 +15,14 @@ export const getProductApi =
       dispatch(productSlice.actions.getProductFail(e?.response?.data));
     }
   };
-export const getProductDetailApi = (productId) => async (dispatch) => {
-  dispatch(productDetailSlice.actions.getProductDetail());
+export const getProductApi = (productId) => async (dispatch) => {
+  dispatch(productDetailSlice.actions.getProduct());
   try {
     const res = await http.get(`/nail/products/?product_id=${productId}`);
-    dispatch(productDetailSlice.actions.getProductDetailSuccess(res.data.data));
+    dispatch(productDetailSlice.actions.getProductSuccess(res.data.data));
   } catch (e) {
     dispatch(
-      productDetailSlice.actions.getProductDetailFail(e?.response?.data)
+      productDetailSlice.actions.getProductFail(e?.response?.data)
     );
   }
 };
