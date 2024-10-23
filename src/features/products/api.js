@@ -21,12 +21,27 @@ export const getProductApi = (productId) => async (dispatch) => {
     const res = await http.get(`/nail/products/?product_id=${productId}`);
     dispatch(productDetailSlice.actions.getProductSuccess(res.data.data));
   } catch (e) {
-    dispatch(
-      productDetailSlice.actions.getProductFail(e?.response?.data)
-    );
+    dispatch(productDetailSlice.actions.getProductFail(e?.response?.data));
   }
 };
-
+export const updateProductApi = (product) => async (dispatch) => {
+  console.log("product: ", product);
+  dispatch(productDetailSlice.actions.updateProduct());
+  try {
+    const res = await authHttp.put(
+      `/nail/products/${product?.id}/`,
+      JSON.stringify({
+        name: product?.name,
+        detail: product?.detail,
+        description: product?.description,
+        category: product?.category,
+      })
+    );
+    dispatch(productDetailSlice.actions.updateProductSuccess(res?.data));
+  } catch (e) {
+    dispatch(productDetailSlice.actions.updateProductFail(e?.response?.data));
+  }
+};
 export const createProductVariantApi = (newProduct) => async (dispatch) => {
   dispatch(productDetailSlice.actions.createProductDetail());
   try {

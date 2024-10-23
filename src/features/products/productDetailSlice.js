@@ -26,6 +26,20 @@ const productDetailSlice = createSlice({
       state.product = null;
       state.message = action.payload;
     },
+    updateProduct: (state) => {
+      state.loading = true;
+    },
+    updateProductSuccess: (state, action) => {
+      state.loading = false;
+      state.product = action.payload?.data;
+      state.message = action.payload?.message;
+      state.isError = false;
+    },
+    updateProductFail: (state, action) => {
+      state.loading = false;
+      state.message = JSON.stringify(action.payload);
+      state.isError = true;
+    },
     createProductDetail: (state) => {
       state.loading = true;
     },

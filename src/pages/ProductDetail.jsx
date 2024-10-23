@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import {
-  getProductApi,
-  updateProductDetailApi,
-} from "../features/products/api";
+import { getProductApi, updateProductApi } from "../features/products/api";
 import ProductImage from "../components/ProductImage";
 import ProductVariants from "../components/ProductVariants";
 import Loading from "../components/Loading";
@@ -15,20 +12,38 @@ export default function ProductDetail() {
   const dispatch = useDispatch();
   const location = useLocation();
   const [isEditing, setIsEditing] = useState(false);
-
+  const { categories } = useSelector((state) => state.category);
   const { product, loading } = useSelector((state) => state?.productDetail);
+  const [productInfo, setProductInfo] = useState({
+    id: 0,
+    name: "",
+    detail: "",
+    description: "",
+    category: 0,
+  });
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    updateProductDetailApi((prevProduct) => ({
-      ...prevProduct,
-      [name]: value,
-    }));
+    setProductInfo({
+      ...productInfo,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleSave = () => {
+    dispatch(updateProductApi(productInfo));
     setIsEditing(false);
   };
+  useEffect(() => {
+    if (product) {
+      setProductInfo({
+        id: product?.id ?? 0,
+        name: product?.name ?? "",
+        detail: product?.detail ?? "",
+        description: product?.description ?? "",
+        category: product?.category ?? 0,
+      });
+    }
+  }, [product]);
   useEffect(() => {
     dispatch(categoryApi());
   }, [dispatch]);
@@ -97,13 +112,13 @@ export default function ProductDetail() {
                     <input
                       type="text"
                       name="name"
-                      value={product?.name}
+                      value={productInfo?.name}
                       onChange={handleInputChange}
                       className="block w-full bg-gray-100 border-gray-100 outline-none p-2 rounded-md mt-1 focus:border-pink-600 border text-sm"
                     />
                   ) : (
                     <p className="mt-1 text-sm text-gray-900">
-                      {product?.name}
+                      {productInfo?.name}
                     </p>
                   )}
                 </div>
@@ -114,16 +129,23 @@ export default function ProductDetail() {
                   {isEditing ? (
                     <select
                       name="category"
-                      value={product?.category.id}
+                      value={productInfo?.category}
                       onChange={handleInputChange}
                       className="block w-full bg-gray-100 border-gray-100 outline-none p-2 rounded-md mt-1 focus:border-pink-600 border text-sm"
                     >
-                      <option value={1}>Other</option>
-                      {/* Add more categories as needed */}
+                      {categories.map((category) => (
+                        <option key={category?.id} value={category?.id}>
+                          {category?.name}
+                        </option>
+                      ))}
                     </select>
                   ) : (
                     <p className="mt-1 text-sm text-gray-900">
-                      {product?.category.name}
+                      {
+                        categories.find(
+                          (category) => category?.id === productInfo?.category
+                        )?.name
+                      }
                     </p>
                   )}
                 </div>
@@ -145,7 +167,26 @@ export default function ProductDetail() {
                     </p>
                   )}
                 </div>
-
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Details
+                  </label>
+                  {isEditing ? (
+                    <textarea
+                      name="detail"
+                      value={productInfo?.detail}
+                      onChange={handleInputChange}
+                      rows="4"
+                      className="block w-full bg-gray-100 border-gray-100 outline-none p-2 rounded-md mt-1 focus:border-pink-600 border text-sm"
+                    ></textarea>
+                  ) : (
+                    <ul className="mt-1 text-sm text-gray-900">
+                      {productInfo?.detail.split(". ").map((item, idx) => (
+                        <li key={idx}>- {item}.</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
                 <ProductVariants
                   productId={product?.id}
                   productDetail={product?.detail_products || []}

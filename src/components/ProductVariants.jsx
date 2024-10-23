@@ -27,8 +27,10 @@ const ProductVariants = ({ productDetail, productId }) => {
     });
   };
   const addVariant = () => {
-    dispatch(createProductVariantApi(variant));
-    setIsAddVariant(false);
+    if (variant.colorCode && variant.price && variant.quantity) {
+      dispatch(createProductVariantApi(variant));
+      setIsAddVariant(false);
+    }
   };
   const handleDetailProductChange = (e) => {
     setVariant({ ...variant, [e.target.name]: e.target.value });
