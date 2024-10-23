@@ -11,14 +11,19 @@ import ProductVariants from "../components/ProductVariants";
 import Loading from "../components/Loading";
 import Category from "../components/Category";
 import { categoryApi } from "../features/categories/api";
+import NotifyModal from "../components/NotifyModal";
+import productDetailSlice from "../features/products/productDetailSlice";
 
 export default function ProductDetail() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const [isEditing, setIsEditing] = useState(false);
+  const [isDel, setIsDel] = useState(false);
   const { categories } = useSelector((state) => state.category);
-  const { product, loading } = useSelector((state) => state?.productDetail);
+  const { product, loading, message } = useSelector(
+    (state) => state?.productDetail
+  );
   const [productInfo, setProductInfo] = useState({
     id: 0,
     name: "",
@@ -40,7 +45,7 @@ export default function ProductDetail() {
   };
   const handleDelete = () => {
     dispatch(deleteProductApi(product?.id));
-    navigate("/products");
+    setIsDel(false);
   };
   useEffect(() => {
     if (product) {
@@ -56,6 +61,12 @@ export default function ProductDetail() {
   useEffect(() => {
     dispatch(categoryApi());
   }, [dispatch]);
+  useEffect(() => {
+    if (message === "Product is deleted.") {
+      navigate("/products");
+      dispatch(productDetailSlice.actions.reset());
+    }
+  }, [dispatch, message, navigate]);
   useEffect(() => {
     dispatch(
       getProductApi(
@@ -92,7 +103,7 @@ export default function ProductDetail() {
               <div className="flex gap-3">
                 <button
                   className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 text-sm"
-                  onClick={handleDelete}
+                  onClick={() => setIsDel(true)}
                 >
                   <i className="fas fa-trash mr-2"></i> Delete
                 </button>
@@ -208,6 +219,12 @@ export default function ProductDetail() {
           </div>
         </div>
         <Category />
+        {isDel && (
+          <NotifyModal
+            closeModal={() => setIsDel(false)}
+            handleDelete={handleDelete}
+          />
+        )}
       </div>
     </div>
   );
