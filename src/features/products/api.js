@@ -47,10 +47,20 @@ export const createProductVariantApi = (newProduct) => async (dispatch) => {
     );
   }
 };
-export const updateProductDetailApi = (product) => async (dispatch) => {
+export const updateProductDetailApi = (variant, id) => async (dispatch) => {
   dispatch(productDetailSlice.actions.updateProductDetail());
   try {
-    dispatch(productDetailSlice.actions.updateProductDetailSuccess(product));
+    const res = await authHttp.put(
+      `/nail/product-detail/${id}/`,
+      JSON.stringify({
+        price: variant?.price,
+        color_code: variant?.color_code,
+        color_name: variant?.color_code,
+        quantity: variant?.quantity,
+        product: variant?.product,
+      })
+    );
+    dispatch(productDetailSlice.actions.updateProductDetailSuccess(res?.data));
   } catch (e) {
     dispatch(
       productDetailSlice.actions.updateProductDetailFail(e?.response?.data)
@@ -61,9 +71,7 @@ export const deleteProductVariantApi = (id) => async (dispatch) => {
   dispatch(productDetailSlice.actions.deleteProductDetail());
   try {
     const res = await authHttp.delete(`/nail/product-detail/${id}/`);
-    dispatch(
-      productDetailSlice.actions.deleteProductDetailSuccess(res?.data)
-    );
+    dispatch(productDetailSlice.actions.deleteProductDetailSuccess(res?.data));
   } catch (e) {
     dispatch(
       productDetailSlice.actions.deleteProductDetailFail(e?.response?.data)

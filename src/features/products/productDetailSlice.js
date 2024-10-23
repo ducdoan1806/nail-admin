@@ -46,7 +46,8 @@ const productDetailSlice = createSlice({
     updateProductDetailSuccess: (state, action) => {
       state.loading = false;
       state.product.detail_products = state.product.detail_products.map(
-        (item) => (item.id === action.payload?.id ? action.payload : item)
+        (item) =>
+          item.id === action.payload?.data?.id ? action.payload?.data : item
       );
       state.message = action.payload?.message;
       state.isError = false;

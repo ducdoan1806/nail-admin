@@ -1,14 +1,19 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { deleteProductVariantApi } from "../features/products/api";
+import {
+  deleteProductVariantApi,
+  updateProductDetailApi,
+} from "../features/products/api";
 const ProductVariantItem = (props) => {
   const dispatch = useDispatch();
   const [variant, setVariant] = useState({
+    product: props?.product ?? 0,
     color_code: props?.color_code ?? "",
     price: props?.price ?? 0,
     quantity: props?.quantity ?? 0,
   });
+
   const [isEditVariant, setIsEditVariant] = useState(true);
   const [isDelVariant, setIsDelVariant] = useState(false);
   const handleDetailProductChange = (e) => {
@@ -22,9 +27,13 @@ const ProductVariantItem = (props) => {
     dispatch(deleteProductVariantApi(props?.id));
     setIsEditVariant(!false);
   };
-  const handleEditVariant = () => {
+  const handleIsEditVariant = () => {
     setIsEditVariant(!isEditVariant);
     setIsDelVariant(false);
+  };
+  const handleEditVariant = () => {
+    setIsEditVariant(true);
+    dispatch(updateProductDetailApi(variant, props?.id));
   };
   return (
     <div className="mb-4">
@@ -58,7 +67,7 @@ const ProductVariantItem = (props) => {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Color Code
+              Color
             </label>
 
             <input
@@ -74,21 +83,37 @@ const ProductVariantItem = (props) => {
               className="disabled:bg-white disabled:border-white w-full bg-gray-100 border-gray-100 outline-none rounded-md mt-1 h-10 focus:border-pink-600 border text-sm"
             />
           </div>
-
-          <div className="flex items-center justify-end gap-1">
-            <button
-              onClick={handleEditVariant}
-              className="text-blue-500 bg-white px-2 py-1 rounded-full hover:bg-gray-100"
-            >
-              <i className="fas fa-pen"></i>
-            </button>
-            <button
-              onClick={handleDelVariant}
-              className="text-red-500 bg-white px-2 py-1 rounded-full hover:bg-gray-100"
-            >
-              <i className="fas fa-trash-alt"></i>
-            </button>
-          </div>
+          {!isEditVariant ? (
+            <div className="flex items-center justify-end gap-1">
+              <button
+                className="text-red-500 bg-white px-2 py-1 rounded-full hover:bg-gray-100"
+                onClick={handleEditVariant}
+              >
+                <i className="fas fa-check"></i>
+              </button>
+              <button
+                className="text-blue-500 bg-white px-2 py-1 rounded-full hover:bg-gray-100"
+                onClick={handleIsEditVariant}
+              >
+                <i className="fas fa-xmark"></i>
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center justify-end gap-1">
+              <button
+                onClick={handleIsEditVariant}
+                className="text-blue-500 bg-white px-2 py-1 rounded-full hover:bg-gray-100"
+              >
+                <i className="fas fa-pen"></i>
+              </button>
+              <button
+                onClick={handleDelVariant}
+                className="text-red-500 bg-white px-2 py-1 rounded-full hover:bg-gray-100"
+              >
+                <i className="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          )}
         </div>
       </div>
       {isDelVariant && (
@@ -98,7 +123,7 @@ const ProductVariantItem = (props) => {
             <button
               className="text-blue-600 font-semibold"
               onClick={() => {
-                setIsDelVariant(!false);
+                setIsDelVariant(false);
               }}
             >
               Cancel
@@ -121,5 +146,6 @@ ProductVariantItem.propTypes = {
   id: PropTypes.number,
   price: PropTypes.number,
   quantity: PropTypes.number,
+  product: PropTypes.number,
 };
 export default ProductVariantItem;
