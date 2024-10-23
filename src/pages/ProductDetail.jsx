@@ -27,8 +27,6 @@ export default function ProductDetail() {
   };
 
   const handleSave = () => {
-    // Here you would typically send the updated product data to your backend
-    console.log("Saving product:", product);
     setIsEditing(false);
   };
   useEffect(() => {

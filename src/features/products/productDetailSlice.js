@@ -79,11 +79,27 @@ const productDetailSlice = createSlice({
     createImageSuccess: (state, action) => {
       state.loading = false;
 
-      state.product.images.unshift(...action.payload.data.images);
+      state.product.images.push(...action.payload.data.images);
       state.message = action.payload?.message;
       state.isError = false;
     },
     createImageFail: (state, action) => {
+      state.loading = false;
+      state.message = JSON.stringify(action.payload);
+      state.isError = true;
+    },
+    deleteImage: (state) => {
+      state.loading = true;
+    },
+    deleteImageSuccess: (state, action) => {
+      state.loading = false;
+      state.product.images = state.product.images.filter(
+        (item) => item.id !== action.payload?.data?.id
+      );
+      state.message = action.payload?.message;
+      state.isError = false;
+    },
+    deleteImageFail: (state, action) => {
       state.loading = false;
       state.message = JSON.stringify(action.payload);
       state.isError = true;

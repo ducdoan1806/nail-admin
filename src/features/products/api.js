@@ -97,3 +97,12 @@ export const createProductImageApi =
       dispatch(productDetailSlice.actions.createImageFail(e?.response?.data));
     }
   };
+export const deleteImageApi = (id) => async (dispatch) => {
+  dispatch(productDetailSlice.actions.deleteImage());
+  try {
+    const res = await authHttp.delete(`/nail/images/${id}/`);
+    dispatch(productDetailSlice.actions.deleteImageSuccess(res?.data));
+  } catch (e) {
+    dispatch(productDetailSlice.actions.deleteImageFail(e?.response?.data));
+  }
+};
