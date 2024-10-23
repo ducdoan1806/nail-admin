@@ -1,16 +1,25 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useOutside } from "../utils/util";
+import { createProductApi } from "../features/products/api";
 
 const CreateProductModal = ({ onClose }) => {
   const { categories } = useSelector((state) => state.category);
+
+  const ref = useRef(null);
+  const dispatch = useDispatch();
   const [productData, setProductData] = useState({
     name: "",
     detail: "",
     description: "",
     category: "",
   });
-  const handleSubmit = () => {};
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    dispatch(createProductApi(productData));
+    onClose();
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProductData({
@@ -18,9 +27,12 @@ const CreateProductModal = ({ onClose }) => {
       [name]: value,
     });
   };
+
+  useOutside(ref, onClose);
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-md" ref={ref}>
         <div className="flex justify-between items-center p-4 border-b">
           <h2 className="text-xl font-semibold text-gray-800">
             Add New Product
@@ -32,7 +44,7 @@ const CreateProductModal = ({ onClose }) => {
             <i className="fas fa-times h-5 w-5"></i>
           </button>
         </div>
-        <form onSubmit={handleSubmit} method="POST" className="p-4">
+        <form method="post" onSubmit={handleSubmit} className="p-4">
           <div className="mb-4">
             <label
               htmlFor="category"
@@ -107,6 +119,7 @@ const CreateProductModal = ({ onClose }) => {
               className="resize-none w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-pink-500"
             ></textarea>
           </div>
+
           <div className="flex justify-end">
             <button
               type="submit"

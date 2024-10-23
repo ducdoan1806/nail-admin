@@ -14,6 +14,9 @@ const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
+    reset: (state) => {
+      state.message = null;
+    },
     updatePagination(state, action) {
       state.page = action.payload.page;
       state.pageSize = action.payload.pageSize;
@@ -44,7 +47,7 @@ const productSlice = createSlice({
     createProductSuccess: (state, action) => {
       state.loading = false;
       state.count = action.payload.count + 1;
-      state.products.push(action.payload?.data);
+      state.products.unshift(action.payload?.data);
       state.message = action.payload?.message;
       state.isError = false;
     },

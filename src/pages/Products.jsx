@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsApi } from "../features/products/api";
 import { API_URL } from "../app/http";
@@ -12,10 +12,14 @@ import CreateProductModal from "../components/CreateProductModal";
 
 const Products = () => {
   const dispatch = useDispatch();
+  const [isAdd, setIsAdd] = useState(false);
   const { products, count, page, pageSize, search, loading } = useSelector(
     (state) => state.product
   );
   const { message, isError } = useSelector((state) => state.productDetail);
+  const { message: productMess, isError: productIsError } = useSelector(
+    (state) => state.product
+  );
   const debouncedSearch = useDebounced((query) => {
     dispatch(productSlice.actions.setSearchQuery({ search: query }));
   }, 500);
@@ -50,6 +54,15 @@ const Products = () => {
           }}
         />
       )}
+      {productMess && (
+        <NotifyTag
+          content={productMess}
+          isError={productIsError}
+          onClose={() => {
+            dispatch(productSlice.actions.reset());
+          }}
+        />
+      )}
       <h2 className="text-2xl font-bold mb-6">Products</h2>
       <div className="bg-white p-6 rounded-lg shadow-md">
         <div className="flex justify-between items-center mb-4">
@@ -60,7 +73,10 @@ const Products = () => {
             onChange={handleSearch}
             className="border rounded-md px-2 py-1 w-64 text-sm focus:border-gray-500 outline-none"
           />
-          <button className="bg-pink-600 text-white text-sm py-2 px-4 rounded-md hover:bg-pink-700">
+          <button
+            className="bg-pink-600 text-white text-sm py-2 px-4 rounded-md hover:bg-pink-700"
+            onClick={() => setIsAdd(!isAdd)}
+          >
             <i className="fas fa-plus mr-2"></i> Add Product
           </button>
         </div>
@@ -125,7 +141,7 @@ const Products = () => {
           )}
         </div>
       </div>
-      <CreateProductModal />
+      {isAdd && <CreateProductModal onClose={() => setIsAdd(false)} />}
     </div>
   );
 };
