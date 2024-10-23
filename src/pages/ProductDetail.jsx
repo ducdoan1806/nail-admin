@@ -85,7 +85,10 @@ export default function ProductDetail() {
               className="flex flex-col lg:flex-row gap-6 overflow-auto"
               style={{ height: "calc(100vh - 270px)" }}
             >
-              <ProductImage productImages={product?.images || []} />
+              <ProductImage
+                productId={product?.id}
+                productImages={product?.images || []}
+              />
 
               <div className="lg:w-2/3">
                 <div className="mb-4">

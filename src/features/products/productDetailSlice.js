@@ -73,6 +73,21 @@ const productDetailSlice = createSlice({
       state.message = JSON.stringify(action.payload);
       state.isError = true;
     },
+    createImage: (state) => {
+      state.loading = true;
+    },
+    createImageSuccess: (state, action) => {
+      state.loading = false;
+
+      state.product.images.unshift(...action.payload.data.images);
+      state.message = action.payload?.message;
+      state.isError = false;
+    },
+    createImageFail: (state, action) => {
+      state.loading = false;
+      state.message = JSON.stringify(action.payload);
+      state.isError = true;
+    },
   },
 });
 export default productDetailSlice;

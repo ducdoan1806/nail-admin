@@ -78,3 +78,22 @@ export const deleteProductVariantApi = (id) => async (dispatch) => {
     );
   }
 };
+export const createProductImageApi =
+  (images, productId) => async (dispatch) => {
+    dispatch(productDetailSlice.actions.createImage());
+    try {
+      const formData = new FormData();
+      formData.append("product_id", productId);
+      Array.from(images).forEach((image) => {
+        formData.append("images", image);
+      });
+      const res = await authHttp.post(`/nail/images/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      dispatch(productDetailSlice.actions.createImageSuccess(res?.data));
+    } catch (e) {
+      dispatch(productDetailSlice.actions.createImageFail(e?.response?.data));
+    }
+  };

@@ -1,34 +1,16 @@
+import { useDispatch } from "react-redux";
 import { API_URL } from "../app/http";
-import { updateProductDetailApi } from "../features/products/api";
+
 import PropTypes from "prop-types";
-const ProductImage = ({ productImages }) => {
+import { createProductImageApi } from "../features/products/api";
+const ProductImage = ({ productImages, productId }) => {
+  const dispatch = useDispatch();
   const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        updateProductDetailApi((prevProduct) => ({
-          ...prevProduct,
-          images: [
-            ...prevProduct.images,
-            {
-              id: Date.now(),
-              image: reader.result,
-              created_at: new Date().toISOString(),
-            },
-          ],
-        }));
-      };
-      reader.readAsDataURL(file);
-    }
+    const files = e.target.files;
+    dispatch(createProductImageApi(files, productId));
   };
 
-  const removeImage = (id) => {
-    updateProductDetailApi((prevProduct) => ({
-      ...prevProduct,
-      images: prevProduct.images.filter((img) => img.id !== id),
-    }));
-  };
+  const removeImage = () => {};
   return (
     <div className="lg:w-1/3">
       <h3 className="text-lg font-semibold mb-4">Product Images</h3>
@@ -61,6 +43,7 @@ const ProductImage = ({ productImages }) => {
         <input
           type="file"
           onChange={handleImageUpload}
+          multiple
           className="mt-1 block w-full"
         />
       </div>
@@ -68,6 +51,7 @@ const ProductImage = ({ productImages }) => {
   );
 };
 ProductImage.propTypes = {
+  productId: PropTypes.number,
   productImages: PropTypes.arrayOf(
     PropTypes.shape({
       image: PropTypes.string,
