@@ -91,8 +91,10 @@ const Products = () => {
                       className="rounded-md w-11 h-11"
                     />
                   </td>
-                  <td className="p-2">{product?.category?.name}</td>
-                  <td className="p-2">{convertToVND(product?.mini_price)}</td>
+                  <td className="p-2">{product?.category_item?.name}</td>
+                  <td className="p-2">
+                    {convertToVND(product?.mini_price) || 0}
+                  </td>
                   <td className="p-2">
                     {product?.detail_products?.reduce(
                       (total, item) => total + item.quantity,

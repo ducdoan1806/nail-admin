@@ -25,7 +25,9 @@ export const convertToVietnamTime = (utcDateString) => {
     .replace("T", " ");
 };
 export const convertToVND = (value) => {
-  return value.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+  return value
+    ? value.toLocaleString("vi-VN", { style: "currency", currency: "VND" })
+    : value;
 };
 export const isAuthenticated = () => {
   const authToken = document.cookie
