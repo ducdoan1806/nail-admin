@@ -21,9 +21,11 @@ const Header = () => {
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold text-gray-800">
           Welcome,{" "}
-          {(currentUser?.first_name || "--") +
-            " " +
-            (currentUser?.last_name || "--")}
+          {currentUser?.first_name && currentUser?.last_name
+            ? (currentUser?.first_name || "--") +
+              " " +
+              (currentUser?.last_name || "--")
+            : "Admin"}
         </h2>
         <div className="flex items-center">
           <button className="bg-gray-200 p-2 rounded-full text-gray-600 hover:bg-gray-300 focus:outline-none">
