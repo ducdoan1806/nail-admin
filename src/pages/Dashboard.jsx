@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { authHttp } from "../app/http";
-import { convertToVietnamTime, convertToVND } from "../utils/util";
+import http from "../app/http";
+import { convertToVietnamTime, convertToVND, getCookie } from "../utils/util";
 import { Link } from "react-router-dom";
 import { statusArr } from "../utils/const";
 import Loading from "../components/Loading";
@@ -18,9 +18,11 @@ function Dashboard() {
   useEffect(() => {
     const getOrders = async () => {
       setLoading(true);
-      const res = await authHttp.get(`/nail/overview/`);
-
-      setOrders(res.data.data.recent_order);
+      const token = getCookie("authToken");
+      const res = await http.get(`/nail/overview/`, {
+        headers: { Authorization: token },
+      });
+      setOrders(res.data.data?.recent_order);
       setOverview({
         orderCount: res.data.data?.order_count,
         completedOrderCount: res.data.data?.completed_order_count,
