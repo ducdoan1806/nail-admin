@@ -1,15 +1,9 @@
 import { authHttp } from "../../app/http";
 import categorySlice from "../categories/categorySlice";
 
-export const categoryApi = () => async (dispatch) => {
-  dispatch(categorySlice.actions.getCategory());
-  try {
-    const res = await authHttp.get(`/nail/categories/?page=1&page_size=999`);
-    dispatch(categorySlice.actions.getCategorySuccess(res?.data));
-  } catch (e) {
-    dispatch(categorySlice.actions.getCategoryFail(e?.response?.data));
-  }
-};
+export const categoryApi = async () =>
+  await authHttp.get(`/nail/categories/?page=1&page_size=999`);
+
 export const createCategoryApi = (newCategory) => async (dispatch) => {
   dispatch(categorySlice.actions.createCategory());
   try {

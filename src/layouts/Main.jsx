@@ -5,13 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getUserApi } from "../features/auth/api";
 import Loading from "../components/Loading";
-import { categoryApi } from "../features/categories/api";
+import categorySlice from "../features/categories/categorySlice";
 
 const Main = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.user);
   useEffect(() => {
-    dispatch(categoryApi());
+    dispatch(categorySlice.actions.getCategory());
   }, [dispatch]);
   useEffect(() => {
     dispatch(getUserApi());
