@@ -3,22 +3,14 @@ FROM node:18
 
 # Set the working directory
 WORKDIR /app
-
-# Copy package.json and package-lock.json and install dependencies
 COPY package.json ./
 RUN npm install
-
-# Copy the project files
 COPY . .
-
-# Build the React application
 RUN npm run build
 
-# Install serve to serve the build
-RUN npm install -g serve
+# Step 2: Serve the app with a static server (nginx)
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
 
-# Expose the port the app runs on
 EXPOSE 3001
-
-# Run the application
-CMD ["serve", "-s", "build"]
+CMD ["nginx", "-g", "daemon off;"]
