@@ -4,21 +4,15 @@ import categorySlice from "../categories/categorySlice";
 export const categoryApi = async () =>
   await authHttp.get(`/nail/categories/?page=1&page_size=999`);
 
-export const createCategoryApi = (newCategory) => async (dispatch) => {
-  dispatch(categorySlice.actions.createCategory());
-  try {
-    const res = await authHttp.post(
-      `/nail/categories/`,
-      JSON.stringify({
-        code: newCategory?.code?.trim(),
-        name: newCategory?.name?.trim(),
-      })
-    );
-    dispatch(categorySlice.actions.createCategorySuccess(res?.data));
-  } catch (e) {
-    dispatch(categorySlice.actions.createCategoryFail(e?.response?.data));
-  }
-};
+export const createCategoryApi = async (newCategory) =>
+  await authHttp.post(
+    `/nail/categories/`,
+    JSON.stringify({
+      code: newCategory?.code?.trim(),
+      name: newCategory?.name?.trim(),
+    })
+  );
+
 export const updateCategoryApi = (category, id) => async (dispatch) => {
   dispatch(categorySlice.actions.updateCategory());
   try {

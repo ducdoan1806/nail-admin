@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import CategoryItem from "./CategoryItem";
 import Loading from "./Loading";
 import { useState } from "react";
-import { createCategoryApi } from "../features/categories/api";
 import NotifyTag from "./NotifyTag";
 import categorySlice from "../features/categories/categorySlice";
 
@@ -19,7 +18,7 @@ const Category = () => {
   };
   const handleCreateCategory = (e) => {
     e.preventDefault();
-    dispatch(createCategoryApi(newCategory));
+    dispatch(categorySlice.actions.createCategory(newCategory));
     setIsNewCategory(false);
     setNewCategory({ code: "", name: "" });
   };
