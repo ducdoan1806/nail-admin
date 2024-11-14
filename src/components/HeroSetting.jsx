@@ -3,14 +3,14 @@ import Input from "./Input";
 
 const HeroSetting = () => {
   const [image, setImage] = useState(null);
+  console.log("image: ", image);
   const [error, setError] = useState("");
   const [heroInfo, setHeroInfo] = useState({
     title: "",
     desc: "",
     review: "",
   });
-  console.log(heroInfo);
-  console.log(image);
+
   const handleHeroInfo = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -77,7 +77,7 @@ const HeroSetting = () => {
           />
           {error && <p className="text-center text-sm text-red-500">{error}</p>}
         </div>
-        <div className="w-full min-h-[100px] sm:min-w-[300px] sm:min-h-[200px] border border-gray-200 rounded-md border-dashed flex flex-col justify-center items-center text-center text-gray-500 overflow-hidden">
+        <div className="w-full min-h-[100px] sm:min-w-[300px] sm:min-h-[200px] border border-gray-300 rounded-md border-dashed flex flex-col justify-center items-center text-center text-gray-500 overflow-hidden">
           {heroInfo?.review ? (
             <img src={heroInfo?.review} alt="" />
           ) : (

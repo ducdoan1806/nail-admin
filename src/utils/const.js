@@ -39,23 +39,24 @@ export const contacts = [
     url: "https://www.facebook.com/",
   },
   {
-    social: "fa-brands fa-facebook",
-    name: "Facebook",
+    social: "fa-brands fa-tiktok",
+    name: "Tiktok",
     url: "https://www.facebook.com/",
   },
   {
-    social: "fa-brands fa-facebook",
-    name: "Facebook",
-    url: "https://www.facebook.com/",
+    social: "fa-solid fa-phone",
+    name: "Phone",
+    url: "0985834484",
   },
   {
-    social: "fa-brands fa-facebook",
-    name: "Facebook",
+    social: "fa-solid fa-location-dot",
+    name: "Vĩnh Yên, Vĩnh Phúc",
     url: "https://www.facebook.com/",
   },
-  {
-    social: "fa-brands fa-facebook",
-    name: "Facebook",
-    url: "https://www.facebook.com/",
-  },
+];
+export const socials = [
+  "fa-brands fa-facebook",
+  "fa-brands fa-tiktok",
+  "fa-solid fa-phone",
+  "fa-solid fa-location-dot",
 ];
