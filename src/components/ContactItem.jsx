@@ -4,11 +4,12 @@ import PropTypes from "prop-types";
 import { socials } from "../utils/const";
 const ContactItem = (props) => {
   const [social, setSocial] = useState(props?.social || socials[0]);
-  const [isEdit, setIsEdit] = useState(false);
+
   const [contact, setContact] = useState({
     name: props?.name || "",
     url: props?.url || "",
   });
+  const [isEdit, setIsEdit] = useState(false);
   const handleContact = (e) => {
     setContact({ ...contact, [e.target.name]: e.target.value });
   };
@@ -38,14 +39,31 @@ const ContactItem = (props) => {
         onChange={handleContact}
         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 text-sm"
       />
-      <div className="flex items-center text-sm">
-        <button className="text-blue-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200">
-          <i className="fas fa-pen"></i>
-        </button>
-        <button className="text-red-500 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200">
-          <i className="fas fa-trash"></i>
-        </button>
-      </div>
+      {isEdit ? (
+        <div className="flex items-center text-sm">
+          <button className="text-blue-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200">
+            <i className="fas fa-check"></i>
+          </button>
+          <button
+            className="text-red-500 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200"
+            onClick={() => setIsEdit(false)}
+          >
+            <i className="fas fa-close"></i>
+          </button>
+        </div>
+      ) : (
+        <div className="flex items-center text-sm">
+          <button
+            className="text-blue-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200"
+            onClick={() => setIsEdit(true)}
+          >
+            <i className="fas fa-pen"></i>
+          </button>
+          <button className="text-red-500 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200">
+            <i className="fas fa-trash"></i>
+          </button>
+        </div>
+      )}
     </div>
   );
 };

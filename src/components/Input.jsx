@@ -9,6 +9,7 @@ const Input = ({
   onChange,
   title,
   autoFocus,
+  disabled = false,
 }) => {
   return (
     <div>
@@ -27,6 +28,7 @@ const Input = ({
           onChange={onChange}
           autoFocus={autoFocus}
           placeholder={`Type your ${title.toLowerCase()} ...`}
+          disabled={disabled}
         />
       </div>
     </div>
@@ -42,5 +44,6 @@ Input.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
   title: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 export default Input;

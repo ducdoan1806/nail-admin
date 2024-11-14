@@ -3,8 +3,8 @@ import Input from "./Input";
 
 const HeroSetting = () => {
   const [image, setImage] = useState(null);
-  console.log("image: ", image);
   const [error, setError] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
   const [heroInfo, setHeroInfo] = useState({
     title: "",
     desc: "",
@@ -38,9 +38,31 @@ const HeroSetting = () => {
   };
   return (
     <div className="bg-white p-6 rounded-lg shadow-md flex-1">
-      <h3 className="text-xl font-semibold pb-2 border-b border-gray-300 mb-3 w-full">
-        Hero
-      </h3>
+      <div className="flex justify-between pb-2 border-b border-gray-300 mb-3 w-full">
+        <h3 className="text-xl font-semibold">Hero</h3>
+        {isEdit ? (
+          <div className="flex gap-4">
+            <button
+              className="text-red-600 font-semibold text-sm"
+              onClick={() => setIsEdit(!isEdit)}
+            >
+              Cancel
+            </button>
+            <button className="bg-pink-500 rounded-md px-4 py-2 text-white text-sm hover:bg-pink-600">
+              <i className="fa-solid fa-floppy-disk mr-2"></i>
+              Save
+            </button>
+          </div>
+        ) : (
+          <button
+            className="bg-pink-500 rounded-md px-4 py-2 text-white text-sm hover:bg-pink-600"
+            onClick={() => setIsEdit(!isEdit)}
+          >
+            <i className="fas fa-pen mr-2 text-xs"></i>
+            Edit
+          </button>
+        )}
+      </div>
       <div className="flex items-start gap-4 flex-wrap sm:flex-nowrap">
         <div className="flex flex-col gap-2 w-full">
           <Input
@@ -49,6 +71,7 @@ const HeroSetting = () => {
             title={"Title"}
             type={"text"}
             onChange={handleHeroInfo}
+            disabled={!isEdit}
             value={heroInfo.title}
           />
           <div>
@@ -65,6 +88,7 @@ const HeroSetting = () => {
                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 text-sm"
                 onChange={handleHeroInfo}
                 value={heroInfo.desc}
+                disabled={!isEdit}
               ></textarea>
             </div>
           </div>
@@ -73,6 +97,7 @@ const HeroSetting = () => {
             name={"image"}
             title={"Image"}
             type={"file"}
+            disabled={!isEdit}
             onChange={handleHeroInfo}
           />
           {error && <p className="text-center text-sm text-red-500">{error}</p>}
