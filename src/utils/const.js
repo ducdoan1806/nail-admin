@@ -14,6 +14,11 @@ export const menu = [
     path: "/orders",
     icon: "fas fa-shopping-cart",
   },
+  {
+    name: "Settings",
+    path: "/settings",
+    icon: "fa-solid fa-gear",
+  },
 ];
 export const statusArr = [
   { code: "Pending", style: "bg-blue-200 text-blue-800" },
@@ -27,3 +32,30 @@ export const OAUTH2_INFO = {
   client_secret:
     "fFa7ZSkjNbFGRaTRRNwjs2MtxnDtonokEmPt6CIZrREqQqt2ml2exrHcGUGLOGHsEsXLzLS7hYwipYmmkMJd4PwZFinmgDWLKVDKnztVzkEawVk0qcNzNc8L1hclQ0Nk",
 };
+export const contacts = [
+  {
+    social: "fa-brands fa-facebook",
+    name: "Facebook",
+    url: "https://www.facebook.com/",
+  },
+  {
+    social: "fa-brands fa-facebook",
+    name: "Facebook",
+    url: "https://www.facebook.com/",
+  },
+  {
+    social: "fa-brands fa-facebook",
+    name: "Facebook",
+    url: "https://www.facebook.com/",
+  },
+  {
+    social: "fa-brands fa-facebook",
+    name: "Facebook",
+    url: "https://www.facebook.com/",
+  },
+  {
+    social: "fa-brands fa-facebook",
+    name: "Facebook",
+    url: "https://www.facebook.com/",
+  },
+];
