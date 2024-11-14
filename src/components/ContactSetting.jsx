@@ -48,6 +48,7 @@ const ContactSetting = () => {
               name="name"
               value={contact?.name}
               onChange={handleContact}
+              autoFocus={isCreate}
               className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 text-sm"
             />
             <input
