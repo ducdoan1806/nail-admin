@@ -10,10 +10,9 @@ const HeroSetting = () => {
     desc: "",
     review: "",
   });
-
   const handleHeroInfo = (e) => {
-    const file = e.target.files[0];
-    if (file) {
+    if (e?.target?.files) {
+      const file = e.target.files[0];
       const img = new Image();
       img.src = URL.createObjectURL(file);
       img.onload = () => {
@@ -34,6 +33,11 @@ const HeroSetting = () => {
           });
         }
       };
+    } else {
+      setHeroInfo({
+        ...heroInfo,
+        [e.target.name]: e.target.value,
+      });
     }
   };
   return (
@@ -84,11 +88,13 @@ const HeroSetting = () => {
             <div className="mt-1">
               <textarea
                 id="desc"
+                name="desc"
                 placeholder="Type your description ..."
                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 text-sm"
                 onChange={handleHeroInfo}
                 value={heroInfo.desc}
                 disabled={!isEdit}
+                rows={5}
               ></textarea>
             </div>
           </div>

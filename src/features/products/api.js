@@ -25,7 +25,7 @@ export const getProductApi = (productId) => async (dispatch) => {
   }
 };
 export const createProductApi = (product) => async (dispatch) => {
-  dispatch(productDetailSlice.actions.updateProduct());
+  dispatch(productSlice.actions.createProduct());
   try {
     const res = await authHttp.post(
       `/nail/products/`,
@@ -36,9 +36,9 @@ export const createProductApi = (product) => async (dispatch) => {
         category: Number(product?.category),
       })
     );
-    dispatch(productDetailSlice.actions.updateProductSuccess(res?.data));
+    dispatch(productSlice.actions.createProductSuccess(res?.data));
   } catch (e) {
-    dispatch(productDetailSlice.actions.updateProductFail(e?.response?.data));
+    dispatch(productSlice.actions.createProductFail(e?.response?.data));
   }
 };
 export const updateProductApi = (product) => async (dispatch) => {

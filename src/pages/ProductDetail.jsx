@@ -176,14 +176,14 @@ export default function ProductDetail() {
                   {isEditing ? (
                     <textarea
                       name="description"
-                      value={product?.description}
+                      value={productInfo?.description}
                       onChange={handleInputChange}
                       rows="4"
                       className="block w-full bg-gray-100 border-gray-100 outline-none p-2 rounded-md mt-1 focus:border-pink-600 border text-sm"
                     ></textarea>
                   ) : (
                     <p className="mt-1 text-sm text-gray-900">
-                      {product?.description}
+                      {productInfo?.description}
                     </p>
                   )}
                 </div>

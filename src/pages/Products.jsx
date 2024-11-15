@@ -13,13 +13,18 @@ import CreateProductModal from "../components/CreateProductModal";
 const Products = () => {
   const dispatch = useDispatch();
   const [isAdd, setIsAdd] = useState(false);
-  const { products, count, page, pageSize, search, loading } = useSelector(
-    (state) => state.product
-  );
+  const {
+    products,
+    count,
+    page,
+    pageSize,
+    search,
+    loading,
+    message: productMess,
+    isError: productIsError,
+  } = useSelector((state) => state.product);
   const { message, isError } = useSelector((state) => state.productDetail);
-  const { message: productMess, isError: productIsError } = useSelector(
-    (state) => state.product
-  );
+
   const debouncedSearch = useDebounced((query) => {
     dispatch(productSlice.actions.setSearchQuery({ search: query }));
   }, 500);
