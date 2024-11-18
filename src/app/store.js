@@ -7,6 +7,7 @@ import productDetailSlice from "../features/products/productDetailSlice";
 import authSlice from "../features/auth/authSlice";
 import userSlice from "../features/auth/userSlice";
 import categorySlice from "../features/categories/categorySlice";
+import contactSlice from "../features/contacts/contactSlice";
 
 const rootReducer = combineReducers({
   order: orderSlice.reducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   product: productSlice.reducer,
   productDetail: productDetailSlice.reducer,
   category: categorySlice.reducer,
+  contact: contactSlice.reducer,
 });
 const store = configureStore({
   reducer: rootReducer,

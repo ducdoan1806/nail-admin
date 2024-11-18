@@ -2,8 +2,10 @@ import { useState } from "react";
 import IconSelect from "./SelectIcon";
 import PropTypes from "prop-types";
 import { socials } from "../utils/const";
+import { useDispatch } from "react-redux";
+import { deleteContactApi, updateContactApi } from "../features/contacts/api";
 const ContactItem = (props) => {
-  const [social, setSocial] = useState(props?.social || socials[0]);
+  const [social, setSocial] = useState(props?.social || socials[0]?.name);
 
   const [contact, setContact] = useState({
     name: props?.name || "",
@@ -12,6 +14,14 @@ const ContactItem = (props) => {
   const [isEdit, setIsEdit] = useState(false);
   const handleContact = (e) => {
     setContact({ ...contact, [e.target.name]: e.target.value });
+  };
+  const dispatch = useDispatch();
+  const handleDel = () => {
+    dispatch(deleteContactApi({ id: props?.id }));
+  };
+  const handleUpdate = () => {
+    dispatch(updateContactApi({ id: props?.id, ...contact, social }));
+    setIsEdit(false);
   };
   return (
     <div className="flex gap-2 w-full">
@@ -41,7 +51,10 @@ const ContactItem = (props) => {
       />
       {isEdit ? (
         <div className="flex items-center text-sm">
-          <button className="text-blue-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200">
+          <button
+            className="text-blue-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200"
+            onClick={handleUpdate}
+          >
             <i className="fas fa-check"></i>
           </button>
           <button
@@ -59,7 +72,10 @@ const ContactItem = (props) => {
           >
             <i className="fas fa-pen"></i>
           </button>
-          <button className="text-red-500 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200">
+          <button
+            className="text-red-500 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200"
+            onClick={handleDel}
+          >
             <i className="fas fa-trash"></i>
           </button>
         </div>
@@ -69,6 +85,7 @@ const ContactItem = (props) => {
 };
 ContactItem.propTypes = {
   social: PropTypes.string,
+  id: PropTypes.number,
   name: PropTypes.string,
   url: PropTypes.string,
 };

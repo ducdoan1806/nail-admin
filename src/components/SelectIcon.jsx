@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { useOutside } from "../utils/util";
 import PropTypes from "prop-types";
+import { socials } from "../utils/const";
 
 // Dữ liệu các tùy chọn với social và nhãn
 
@@ -28,7 +29,11 @@ const IconSelect = ({
         className="h-full focus:border-pink-600 max-w-[56px] min-w-[56px] p-2 text-lg font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg flex items-center gap-2"
       >
         <div className="flex items-center">
-          <i className={`${selectedOption}`}></i>
+          <i
+            className={`${
+              socials.find((item) => item?.name === selectedOption)?.icon
+            }`}
+          ></i>
         </div>
         <i className="fas fa-chevron-down text-xs"></i>
       </button>
@@ -40,11 +45,11 @@ const IconSelect = ({
         >
           {options.map((option) => (
             <button
-              key={option}
-              onClick={() => handleSelect(option)}
+              key={option?.name}
+              onClick={() => handleSelect(option?.name)}
               className="w-full p-2 text-gray-700 hover:bg-gray-100"
             >
-              <i className={`${option}`}></i>
+              <i className={`${option?.icon}`}></i>
             </button>
           ))}
         </div>

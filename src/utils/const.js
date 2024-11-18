@@ -55,8 +55,8 @@ export const contacts = [
   },
 ];
 export const socials = [
-  "fa-brands fa-facebook",
-  "fa-brands fa-tiktok",
-  "fa-solid fa-phone",
-  "fa-solid fa-location-dot",
+  { icon: "fa-brands fa-facebook", name: "Facebook" },
+  { icon: "fa-brands fa-tiktok", name: "Tiktok" },
+  { icon: "fa-solid fa-phone", name: "Phone" },
+  { icon: "fa-solid fa-location-dot", name: "Location" },
 ];
